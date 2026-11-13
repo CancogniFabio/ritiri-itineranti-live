@@ -16,9 +16,9 @@ window.RI = {
   ],
   departures: [
     { id: "ma-apr27", dest: "marocco", sort: 202704, date: "21-27 aprile 2027", start: "2027-04-21", end: "2027-04-27", status: "open", teachers: ["fabio", "flavia"] },
-    { id: "ma-ott27", dest: "marocco", sort: 202710, date: "21-27 ottobre 2027", start: "2027-10-21", end: "2027-10-27", status: "open", teachers: ["fabio", "flavia"] },
+    { id: "ma-ott27", dest: "marocco", sort: 202710, date: "21-27 ottobre 2027", start: "2027-10-21", end: "2027-10-27", status: "open", img: "https://innertravels.world/wp-content/uploads/2026/07/DSC2994-1536x1024.jpg", teachers: ["fabio", "flavia"] },
     { id: "ni-nov27", dest: "nilo", sort: 202711, date: "Novembre 2027", status: "tba", teachers: ["fabio", "flavia"] },
-    { id: "ni-feb28", dest: "nilo", sort: 202802, date: "Febbraio 2028", status: "tba", teachers: ["fabio", "flavia"] },
+    { id: "ni-feb28", dest: "nilo", sort: 202802, date: "Febbraio 2028", status: "tba", img: "img/karnak1.jpg", teachers: ["fabio", "flavia"] },
     { id: "ca-2028", dest: "cappadocia", sort: 202809, date: "Nel 2028", status: "soon", teachers: ["fabio", "flavia"] }
   ]
 };
@@ -42,7 +42,7 @@ window.RI = {
   function depCard(d) {
     var ds = D.destinations[d.dest];
     return '<a class="dep-card" href="' + ds.page + '#date" style="--c:' + ds.color + '">' +
-      '<div class="dep-img"><img src="' + ds.img + '" alt="' + ds.country + ' · ' + ds.name + '" loading="lazy"><span class="dep-country">' + ds.country + '</span></div>' +
+      '<div class="dep-img"><img src="' + (d.img || ds.img) + '" alt="' + ds.country + ' · ' + ds.name + '" loading="lazy"><span class="dep-country">' + ds.country + '</span></div>' +
       '<div class="dep-body"><span class="dep-date">' + d.date + '</span><h3>' + ds.country + ' · ' + ds.name + '</h3>' +
       '<span class="dep-trip">' + ds.days + ' · massimo 12 persone</span>' + level(ds) + guides(d, 34) +
       status(d) + '<div class="dep-foot"><span class="dep-price">' + price(ds) + '</span><span class="dep-seats">' + (d.status === 'open' ? 'Richiedi un posto →' : 'Avvisami →') + '</span></div></div></a>';
