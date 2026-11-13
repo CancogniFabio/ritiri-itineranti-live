@@ -614,3 +614,5 @@ h1 .h1-sub{display:block;font-family:var(--body);font-weight:700;font-size:clamp
 .seo-grid a{color:var(--terra);font-weight:700}
 @media (max-width:860px){.seo-grid{grid-template-columns:1fr;gap:12px}}
 .legal{max-width:820px}.legal h2{margin-top:36px;font-size:1.5rem}.legal p,.legal li{color:var(--ink-soft)}
+.old-price{text-decoration:line-through;opacity:.6;font-weight:400;margin-right:4px}
+.dep-price small.eb{display:block;font-family:var(--body);font-size:.72rem;font-weight:700;color:var(--terra);letter-spacing:.02em}

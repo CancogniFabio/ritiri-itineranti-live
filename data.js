@@ -2,9 +2,9 @@
 window.RI = {
   email: "ciao@ritiriitineranti.it",
   destinations: {
-    marocco: { name: "Desert Way", country: "Marocco", page: "marocco.html", img: "img/dunes.jpg", days: "7 giorni, 6 notti", price: 1400, color: "#B6492B", level: 4, levelName: "Avventura" },
-    nilo: { name: "La Via del Nilo", country: "Egitto", page: "nilo.html", img: "img/felucca.jpg", days: "8 giorni, 7 notti", price: null, color: "#17676A", level: 1, levelName: "Dolce" },
-    cappadocia: { name: "Valli di Pietra", country: "Turchia", page: "cappadocia.html", img: "img/balloons.jpg", days: "7 giorni, 6 notti", price: null, color: "#9B3F67", level: 3, levelName: "Attivo" }
+    marocco: { name: "Desert Way", country: "Marocco", page: "marocco.html", img: "img/dunes.jpg", days: "7 giorni, 6 notti", price: 1400, early: 1200, earlyUntil: "31 dicembre 2026", max: 12, color: "#B6492B", level: 4, levelName: "Avventura" },
+    nilo: { name: "La Via del Nilo", country: "Egitto", page: "nilo.html", img: "img/felucca.jpg", days: "8 giorni, 7 notti", price: null, max: 14, color: "#17676A", level: 1, levelName: "Dolce" },
+    cappadocia: { name: "Valli di Pietra", country: "Turchia", page: "cappadocia.html", img: "img/balloons.jpg", days: "7 giorni, 6 notti", price: null, max: 12, color: "#9B3F67", level: 3, levelName: "Attivo" }
   },
   teachers: [
     { id: "fabio", name: "Fabio", role: "Breathwork e regolazione del sistema nervoso", color: "#B6492B", initials: "F", base: "Lisbona", ig: "thebreathworkway",
@@ -27,7 +27,7 @@ window.RI = {
   var D = window.RI;
   function teacher(id) { return D.teachers.filter(function (t) { return t.id === id; })[0]; }
   function eur(n) { return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, '.') + ' €'; }
-  function price(ds) { return ds.price ? eur(ds.price) : 'Quota in arrivo'; }
+  function price(ds) { if (!ds.price) return 'Quota in arrivo'; if (ds.early) return '<s class="old-price">' + eur(ds.price) + '</s> ' + eur(ds.early) + '<small class="eb">early bird fino al ' + ds.earlyUntil + '</small>'; return eur(ds.price); }
   function avatar(t, size) {
     return '<span class="avatar-sm" style="background:' + t.color + ';width:' + size + 'px;height:' + size + 'px;font-size:' + Math.round(size * 0.4) + 'px" aria-hidden="true">' + t.initials + '</span>';
   }
@@ -44,7 +44,7 @@ window.RI = {
     return '<a class="dep-card" href="' + ds.page + '#date" style="--c:' + ds.color + '">' +
       '<div class="dep-img"><img src="' + (d.img || ds.img) + '" alt="' + ds.country + ' · ' + ds.name + '" loading="lazy"><span class="dep-country">' + ds.country + '</span></div>' +
       '<div class="dep-body"><span class="dep-date">' + d.date + '</span><h3>' + ds.country + ' · ' + ds.name + '</h3>' +
-      '<span class="dep-trip">' + ds.days + ' · massimo 12 persone</span>' + level(ds) + guides(d, 34) +
+      '<span class="dep-trip">' + ds.days + ' · massimo ' + ds.max + ' persone</span>' + level(ds) + guides(d, 34) +
       status(d) + '<div class="dep-foot"><span class="dep-price">' + price(ds) + '</span><span class="dep-seats">' + (d.status === 'open' ? 'Richiedi un posto →' : 'Avvisami →') + '</span></div></div></a>';
   }
   window.RIrender = { teacher: teacher, eur: eur, avatar: avatar, depCard: depCard, dots: dots };
@@ -65,7 +65,7 @@ window.RI = {
     tripDeps.innerHTML = D.departures.filter(function (d) { return d.dest === dest; }).sort(function (a, b) { return a.sort - b.sort; }).map(function (d) {
       var open = d.status === 'open';
       return '<article class="dep-tile"><span class="dep-date">' + d.date + '</span>' + guides(d, 44) +
-        '<span class="dep-theme">' + ds.days + ' · massimo 12 persone</span>' + status(d) +
+        '<span class="dep-theme">' + ds.days + ' · massimo ' + ds.max + ' persone</span>' + status(d) +
         '<div class="dep-foot"><span class="dep-price">' + price(ds) + '</span></div>' +
         '<button class="btn accent" type="button" data-book="' + d.id + '">' + (open ? 'Richiedi un posto' : 'Avvisami quando apre') + '</button></article>';
     }).join('');
