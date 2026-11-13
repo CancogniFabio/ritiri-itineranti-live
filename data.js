@@ -2,9 +2,9 @@
 window.RI = {
   email: "ciao@ritiriitineranti.it",
   destinations: {
-    marocco: { name: "Desert Way", country: "Marocco", page: "marocco.html", img: "img/dunes.jpg", days: "7 giorni, 6 notti", price: 1400, early: 1250, earlyUntil: "31 dicembre 2026", max: 12, color: "#B6492B", level: 4, levelName: "Avventura" },
-    nilo: { name: "La Via del Nilo", country: "Egitto", page: "nilo.html", img: "img/felucca.jpg", days: "8 giorni, 7 notti", price: null, max: 14, color: "#17676A", level: 1, levelName: "Dolce" },
-    cappadocia: { name: "Valli di Pietra", country: "Turchia", page: "cappadocia.html", img: "img/balloons.jpg", days: "7 giorni, 6 notti", price: null, max: 12, color: "#9B3F67", level: 3, levelName: "Attivo" }
+    marocco: { name: "Desert Way", country: "Marocco", page: "/marocco", img: "img/dunes.jpg", days: "7 giorni, 6 notti", price: 1400, early: 1250, earlyUntil: "31 dicembre 2026", max: 12, color: "#B6492B", level: 4, levelName: "Avventura" },
+    nilo: { name: "La Via del Nilo", country: "Egitto", page: "/nilo", img: "img/felucca.jpg", days: "8 giorni, 7 notti", price: null, max: 14, color: "#17676A", level: 1, levelName: "Dolce" },
+    cappadocia: { name: "Valli di Pietra", country: "Turchia", page: "/cappadocia", img: "img/balloons.jpg", days: "7 giorni, 6 notti", price: null, max: 12, color: "#9B3F67", level: 3, levelName: "Attivo" }
   },
   teachers: [
     { id: "fabio", name: "Fabio", role: "Breathwork e regolazione del sistema nervoso", color: "#B6492B", initials: "F", base: "Lisbona", ig: "thebreathworkway",
