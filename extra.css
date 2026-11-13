@@ -636,3 +636,14 @@ h1 .h1-sub{display:block;font-family:var(--body);font-weight:700;font-size:clamp
 .bf-gift{display:grid;grid-template-columns:1.2fr 1fr;gap:40px;align-items:center}
 .bf-gift figure{margin:0;border-radius:24px;overflow:hidden;aspect-ratio:4/5}.bf-gift img{width:100%;height:100%;object-fit:cover}
 @media (max-width:860px){.bf-deps,.bf-gift{grid-template-columns:1fr}.bf-dep{grid-template-columns:1fr}.bf-dep img{height:220px;min-height:0}.bf-count div{min-width:64px}}
+/* Banner flottante Black Friday (home) */
+.bf-float{position:fixed;left:50%;bottom:20px;z-index:60;transform:translate(-50%,140%);transition:transform .45s cubic-bezier(.2,.8,.2,1);display:flex;align-items:center;gap:6px;background:var(--ink);color:var(--sand);border-radius:999px;padding:8px 8px 8px 10px;box-shadow:0 12px 34px rgba(35,32,59,.35);max-width:calc(100% - 24px)}
+.bf-float.in{transform:translate(-50%,0)}
+.bf-float a{display:flex;align-items:center;gap:12px;color:inherit;text-decoration:none;min-width:0}
+.bf-float-tag{background:var(--saffron);color:var(--ink);font-weight:700;font-size:.78rem;letter-spacing:.05em;text-transform:uppercase;padding:6px 12px;border-radius:999px;white-space:nowrap}
+.bf-float-txt{font-size:.95rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bf-float-txt s{opacity:.6}.bf-float-txt strong{color:var(--saffron)}
+.bf-float-cta{background:var(--terra);color:#fff;font-weight:700;font-size:.9rem;padding:8px 16px;border-radius:999px;white-space:nowrap}
+.bf-float button{background:none;border:0;color:var(--sand);font-size:1.4rem;line-height:1;width:34px;height:34px;border-radius:50%;cursor:pointer;opacity:.75}
+.bf-float button:hover{opacity:1;background:rgba(251,244,233,.12)}
+@media (max-width:640px){.bf-float{bottom:12px;padding:6px}.bf-float a{gap:8px}.bf-float-txt{font-size:.82rem;white-space:normal;line-height:1.25}.bf-float-tag{display:none}.bf-float-cta{padding:7px 12px}}
