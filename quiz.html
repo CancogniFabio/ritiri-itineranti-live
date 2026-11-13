@@ -13,7 +13,9 @@
 <meta property="og:title" content="Quiz: che viaggiatore itinerante sei? | Ritiri Itineranti">
 <meta property="og:description" content="Sei domande leggere per scoprire che viaggiatore sei e quale ritiro di yoga e meditazione in viaggio fa per te, tra il deserto del Marocco e il Nilo.">
 <meta property="og:url" content="https://ritiriitineranti.it/quiz.html">
-<meta property="og:image" content="https://innertravels.world/wp-content/uploads/2026/06/DSC2560-1536x1024.jpg">
+<meta property="og:image" content="https://ritiriitineranti.it/img/og-home.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#B6492B">
 <link rel="icon" href="favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -43,7 +45,6 @@
 <label class="check"><input type="checkbox" name="privacy" required> <span>Accetto l'<a href="privacy.html">informativa sulla privacy</a> e voglio ricevere le novità dei Viaggiatori Itineranti</span></label>
 <button class="btn accent" type="submit">Scopri chi sei</button>
 </form>
-<button type="button" class="q-skip">Preferisco vedere il risultato senza email</button>
 </div>
 <div class="q-result" data-r="E" hidden><div class="q-card"><img src="img/dunes.jpg" alt="" loading="lazy"><div class="q-card-body"><span class="eyebrow">Sei...</span><h2>L'Esploratore</h2><p>Hai bisogno di spazio, fatica buona e cieli enormi. Il silenzio lo trovi camminando, e le pratiche ti arrivano meglio dopo una giornata sulle dune.</p><div class="q-trip"><span>Il tuo viaggio</span><strong>Marocco · Desert Way</strong><em>Impegno fisico 4 su 5</em></div><div class="q-actions"><a class="btn accent" href="marocco.html">Scopri il viaggio</a><button type="button" class="btn ghost q-again">Rifai il quiz</button></div></div></div></div><div class="q-result" data-r="C" hidden><div class="q-card"><img src="img/felucca.jpg" alt="" loading="lazy"><div class="q-card-body"><span class="eyebrow">Sei...</span><h2>Il Contemplativo</h2><p>Ti ricarichi rallentando. Ti serve un ritmo lento, comodità la sera e tanto tempo per ascoltarti, mentre il paesaggio scorre da solo.</p><div class="q-trip"><span>Il tuo viaggio</span><strong>Egitto · La Via del Nilo</strong><em>Impegno fisico 1 su 5</em></div><div class="q-actions"><a class="btn accent" href="nilo.html">Scopri il viaggio</a><button type="button" class="btn ghost q-again">Rifai il quiz</button></div></div></div></div><div class="q-result" data-r="R" hidden><div class="q-card"><img src="img/balloons.jpg" alt="" loading="lazy"><div class="q-card-body"><span class="eyebrow">Sei...</span><h2>Il Cercatore</h2><p>Sei curioso di tutto, fuori e dentro di te. Ti piacciono le storie dei posti, le persone che ci vivono e le domande che restano anche dopo.</p><div class="q-trip"><span>Il tuo viaggio</span><strong>Turchia · Valli di Pietra</strong><em>Impegno fisico 3 su 5 · in arrivo nel 2028</em></div><div class="q-actions"><a class="btn accent" href="cappadocia.html">Scopri il viaggio</a><button type="button" class="btn ghost q-again">Rifai il quiz</button></div></div></div></div><div class="q-result" data-r="P" hidden><div class="q-card"><img src="img/nubian.jpg" alt="" loading="lazy"><div class="q-card-body"><span class="eyebrow">Sei...</span><h2>Il Primo Passo</h2><p>Vorresti prenderti del tempo da anni, ma una settimana lontano ti sembra tanto. Va benissimo così, e per iniziare ti consigliamo il viaggio più dolce che abbiamo, sul Nilo, dove la sera c'è sempre un letto comodo.</p><div class="q-trip"><span>Il tuo viaggio</span><strong>Egitto · La Via del Nilo</strong><em>Il nostro viaggio più dolce, impegno fisico 1 su 5</em></div><div class="q-actions"><a class="btn accent" href="nilo.html">Scopri il viaggio</a><button type="button" class="btn ghost q-again">Rifai il quiz</button></div></div></div></div>
 </div>
@@ -74,9 +75,8 @@
   }
   function best(){var b='P';['E','R','C','P'].forEach(function(k){if(score[k]>score[b])b=k;});return b;}
   var NAMES={E:'Esploratore',C:'Contemplativo',R:'Cercatore',P:'Primo Passo'};
-  document.getElementById('q-form').addEventListener('submit',function(){this.querySelector('[name=profilo]').value=NAMES[best()];},true);
-  document.addEventListener('ri:sent',function(e){if(e.detail.id==='q-form')reveal();});
-  document.querySelector('.q-skip').addEventListener('click',reveal);
+  document.getElementById('q-form').addEventListener('submit',function(){this.querySelector('[name=profilo]').value=NAMES[best()];if(this.checkValidity())setTimeout(reveal,50);},true);
+  
   document.querySelectorAll('.q-again').forEach(function(b){b.addEventListener('click',function(){
     score={E:0,C:0,R:0,P:0};cur=0;document.querySelectorAll('.q-result').forEach(function(r){r.hidden=true});document.querySelector('.q-email').hidden=true;show(0);
     document.getElementById('quiz').scrollIntoView({behavior:'smooth'});

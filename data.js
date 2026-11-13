@@ -44,7 +44,7 @@ window.RI = {
     return '<a class="dep-card" href="' + ds.page + '#date" style="--c:' + ds.color + '">' +
       '<div class="dep-img"><img src="' + (d.img || ds.img) + '" alt="' + ds.country + ' · ' + ds.name + '" loading="lazy"><span class="dep-country">' + ds.country + '</span></div>' +
       '<div class="dep-body"><span class="dep-date">' + d.date + '</span><h3>' + ds.country + ' · ' + ds.name + '</h3>' +
-      '<span class="dep-trip">' + ds.days + ' · massimo ' + ds.max + ' persone</span>' + level(ds) + guides(d, 34) +
+      '<span class="dep-trip">' + ds.days + '</span>' + level(ds) + guides(d, 34) +
       status(d) + '<div class="dep-foot"><span class="dep-price">' + price(ds) + '</span><span class="dep-seats">' + (d.status === 'open' ? 'Richiedi un posto →' : 'Avvisami →') + '</span></div></div></a>';
   }
   window.RIrender = { teacher: teacher, eur: eur, avatar: avatar, depCard: depCard, dots: dots };
@@ -65,7 +65,7 @@ window.RI = {
     tripDeps.innerHTML = D.departures.filter(function (d) { return d.dest === dest; }).sort(function (a, b) { return a.sort - b.sort; }).map(function (d) {
       var open = d.status === 'open';
       return '<article class="dep-tile"><span class="dep-date">' + d.date + '</span>' + guides(d, 44) +
-        '<span class="dep-theme">' + ds.days + ' · massimo ' + ds.max + ' persone</span>' + status(d) +
+        '<span class="dep-theme">' + ds.days + '</span>' + status(d) +
         '<div class="dep-foot"><span class="dep-price">' + price(ds) + '</span></div>' +
         '<button class="btn accent" type="button" data-book="' + d.id + '">' + (open ? 'Richiedi un posto' : 'Avvisami quando apre') + '</button></article>';
     }).join('');
