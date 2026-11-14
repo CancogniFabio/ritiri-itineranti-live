@@ -2,5 +2,5 @@
 deployment:
   tasks:
     - export DEPLOYPATH=/home/essent42/public_html/ritiriitineranti/
-    - /bin/cp -Rf ./*.html ./*.css ./*.js ./*.php ./*.txt ./*.xml ./*.svg ./*.png ./img $DEPLOYPATH
+    - /bin/cp -Rf ./*.html ./*.css ./*.js ./*.php ./*.txt ./*.xml ./*.svg ./*.png ./img ./fonts $DEPLOYPATH
     - /bin/cp -f ./.htaccess $DEPLOYPATH

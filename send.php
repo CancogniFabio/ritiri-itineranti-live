@@ -39,7 +39,7 @@ if (stripos($tipo, 'Black Friday') === 0 && strlen(preg_replace('/\D/', '', $_PO
     echo json_encode(['ok' => false, 'error' => 'Inserisci il tuo numero di cellulare, così possiamo chiamarti.']);
     exit;
 }
-$skip = ['website', 'privacy'];
+$skip = ['website'];
 $lines = [];
 foreach ($_POST as $k => $v) {
     if (in_array($k, $skip, true) || is_array($v)) continue;
@@ -89,6 +89,7 @@ function ri_black_friday($email, $from) {
     }
     {
         $parts = explode(' ', $nome, 2);
-        ri_brevo_upsert($email, ['FIRSTNAME' => $parts[0], 'LASTNAME' => $parts[1] ?? '', 'WHATSAPP' => clean($_POST['telefono'] ?? '', 30), 'PARTENZA' => $dep, 'CODICE_BF' => $CODE, 'HA_PRENOTATO' => false, 'NEWSLETTER' => !empty($_POST['marketing'])]);
+        ri_brevo_upsert($email, ['FIRSTNAME' => $parts[0], 'LASTNAME' => $parts[1] ?? '', 'WHATSAPP' => clean($_POST['telefono'] ?? '', 30), 'PARTENZA' => $dep, 'CODICE_BF' => $CODE, 'HA_PRENOTATO' => false, 'NEWSLETTER' => !empty($_POST['marketing'])], empty($_POST['promemoria']) ? false : null);
+        // Senza consenso ai promemoria il contatto non entra nella lista Black Friday, quindi non riceve la sequenza.
     }
 }
