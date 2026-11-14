@@ -20,8 +20,8 @@ $email = $att['email'] ?? '';
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) { echo json_encode(['ok' => true, 'skip' => 'no email']); exit; }
 $start = $d['payload']['startTime'] ?? '';
 if ($event === 'BOOKING_CREATED' || $event === 'BOOKING_RESCHEDULED') {
-    ri_brevo_upsert($email, ['HA_PRENOTATO' => true, 'DATA_CHIAMATA' => substr($start, 0, 10)]);
+    ri_brevo_upsert($email, ['HA_PRENOTATO' => true, 'DATA_CHIAMATA' => substr($start, 0, 10)], false);
 } elseif ($event === 'BOOKING_CANCELLED') {
-    ri_brevo_upsert($email, ['HA_PRENOTATO' => false]);
+    ri_brevo_upsert($email, ['HA_PRENOTATO' => false], false);
 }
 echo json_encode(['ok' => true]);

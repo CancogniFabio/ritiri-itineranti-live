@@ -76,10 +76,14 @@ function ri_black_friday($email, $from) {
          . "Il prossimo passo è una chiamata di 20 minuti con noi, in cui ci conosciamo e rispondiamo alle tue domande. Puoi prenotarla qui:\n" . $link . "\n\n"
          . "Il codice vale per chi lo ha richiesto entro il 4 dicembre 2026, anche se la chiamata cade qualche giorno dopo.\n\n"
          . "A presto,\nFabio e Flavia\nRitiri Itineranti\n";
-    $h = ['From: Fabio e Flavia · Ritiri Itineranti <ciao@ritiriitineranti.it>', 'Reply-To: ciao@ritiriitineranti.it', 'MIME-Version: 1.0', 'Content-Type: text/plain; charset=UTF-8'];
-    @mail($email, mb_encode_mimeheader('Il tuo codice Black Friday: ' . $CODE, 'UTF-8'), $txt, implode("\r\n", $h));
+    $c = ri_config();
+    $sent = !empty($c['bf_template']) && ri_brevo_template($c['bf_template'], $email, $nome, ['NOME' => $first, 'CAL_LINK' => $link, 'PARTENZA' => $dep]);
+    if (!$sent) {
+        $h = ['From: Fabio e Flavia · Ritiri Itineranti <ciao@ritiriitineranti.it>', 'Reply-To: ciao@ritiriitineranti.it', 'MIME-Version: 1.0', 'Content-Type: text/plain; charset=UTF-8'];
+        @mail($email, mb_encode_mimeheader('Il tuo codice Black Friday: ' . $CODE, 'UTF-8'), $txt, implode("\r\n", $h));
+    }
     if (!empty($_POST['marketing'])) {
         $parts = explode(' ', $nome, 2);
-        ri_brevo_upsert($email, ['NOME' => $parts[0], 'COGNOME' => $parts[1] ?? '', 'WHATSAPP' => clean($_POST['telefono'] ?? '', 30), 'PARTENZA' => $dep, 'CODICE_BF' => $CODE, 'HA_PRENOTATO' => false]);
+        ri_brevo_upsert($email, ['FIRSTNAME' => $parts[0], 'LASTNAME' => $parts[1] ?? '', 'WHATSAPP' => clean($_POST['telefono'] ?? '', 30), 'PARTENZA' => $dep, 'CODICE_BF' => $CODE, 'HA_PRENOTATO' => false]);
     }
 }
