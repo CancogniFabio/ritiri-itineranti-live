@@ -677,3 +677,47 @@ h1,h2,h3{overflow-wrap:break-word}
 .dep-price{white-space:nowrap}
 .dep-price small.eb{white-space:normal}
 .dep-seats{margin-left:auto;white-space:nowrap}
+/* ---- landing Black Friday (nov 2026) ---- */
+.wrap.narrow{max-width:760px}
+.bf-hero h1{font-size:clamp(2.1rem,5.2vw,4rem);max-width:15em}
+.bf-hero .lead{max-width:34em;text-shadow:0 2px 14px rgba(0,0,0,.4)}
+.bf-copy h2{margin-bottom:18px}
+.bf-copy p{font-size:1.08rem;line-height:1.7}
+.bf-copy .btn{margin-top:14px}
+.bf-center{text-align:center;margin-top:28px}
+.bf-ingr{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:26px}
+.bf-days{display:grid;grid-template-columns:repeat(5,1fr);gap:16px;margin-top:26px}
+.bf-ingr .card,.bf-days .card{padding:24px}
+.bf-num{display:inline-grid;place-items:center;width:38px;height:38px;border-radius:50%;background:var(--terra);color:#fff;font-family:var(--display);margin-bottom:10px}
+.bf-day{display:inline-block;font-weight:700;font-size:.8rem;letter-spacing:.06em;text-transform:uppercase;color:var(--terra);margin-bottom:6px}
+.bf-ingr h3,.bf-days h3{font-size:1.15rem;margin:0 0 8px}
+.bf-ingr p,.bf-days p{margin:0;font-size:.98rem;line-height:1.6}
+.bf-steps ol{padding-left:1.2em;margin:16px 0}
+.bf-steps li{margin-bottom:10px;line-height:1.55}
+.bf-code{display:flex;align-items:center;justify-content:space-between;gap:12px;border:2px dashed var(--terra);border-radius:16px;padding:14px 16px;margin:8px 0 14px;background:var(--sand)}
+.bf-code strong{font-family:var(--display);font-size:1.7rem;letter-spacing:.06em;color:var(--terra)}
+.bf-cal{margin-top:28px;background:var(--paper);border:1px solid var(--line);border-radius:24px;padding:20px}
+.bf-cal h3{margin:0 0 10px}
+#cal-inline{width:100%;min-height:620px;overflow:auto}
+.bf-booked{margin-top:28px;background:var(--paper);border:1px solid var(--line);border-radius:24px;padding:28px;text-align:center}
+.bf-sticky{display:none}
+@media (max-width:1000px){.bf-ingr{grid-template-columns:1fr 1fr}.bf-days{grid-template-columns:1fr 1fr 1fr}}
+@media (max-width:760px){
+  .bf-ingr.scroll-row,.bf-days.scroll-row,.bf-deps.scroll-row{display:flex!important}
+  .bf-ingr.scroll-row>*,.bf-days.scroll-row>*{flex:0 0 82%}
+  .bf-deps.scroll-row>*{flex:0 0 86%}
+  .bf-hero .bf-offer{flex-direction:column;align-items:stretch;gap:14px}
+  .bf-copy p{font-size:1.02rem}
+  .bf-cal{padding:12px;border-radius:18px}
+  #cal-inline{min-height:560px}
+  .bf-sticky{display:block;position:fixed;left:12px;right:12px;bottom:12px;z-index:60;background:var(--terra);color:#fff;text-align:center;font-weight:700;padding:15px;border-radius:999px;box-shadow:0 10px 30px rgba(35,32,59,.35);text-decoration:none}
+  body:has(.bf-sticky) .site-footer{padding-bottom:90px}
+}
+@media (max-width:760px){.bf-deps.scroll-row .bf-dep{grid-template-columns:1fr}.bf-deps.scroll-row .bf-dep img{min-height:0;height:170px}}
+.bf-hero .lead{color:rgba(255,255,255,.92)}
+@media (max-width:760px){.bf-sticky{transform:translateY(160%);transition:transform .35s ease}.bf-sticky.in{transform:translateY(0)}.bf-hero{padding:96px 0 56px}.bf-count b{font-size:1.6rem}}
+form[hidden],.form-done[hidden],[hidden]{display:none!important}
+.bf-done{background:var(--paper);color:var(--ink);border-radius:20px;padding:22px}
+.bf-done p{color:var(--ink-soft);margin:0}
+.bf-done .eyebrow{color:var(--terra);margin-bottom:6px}
+.join>*{min-width:0}.bf-code{flex-wrap:wrap}.bf-code strong{font-size:clamp(1.3rem,6vw,1.7rem)}
