@@ -148,3 +148,19 @@ window.RIforms = (function () {
 
 /* Menu mobile */
 (function () { var b = document.querySelector('.menu-btn'), n = document.getElementById('nav'); if (!b) return; b.addEventListener('click', function () { var o = n.classList.toggle('open'); b.setAttribute('aria-expanded', o); }); n.addEventListener('click', function (e) { if (e.target.tagName === 'A') { n.classList.remove('open'); b.setAttribute('aria-expanded', false); } }); })();
+
+/* Messaggi di errore dei moduli in italiano */
+(function () {
+  function msg(el) {
+    var v = el.validity;
+    if (v.valueMissing) return el.type === 'checkbox' ? 'Spunta questa casella per continuare.' : (el.tagName === 'SELECT' ? 'Scegli una voce dall\'elenco.' : 'Compila questo campo.');
+    if (v.typeMismatch && el.type === 'email') return 'Inserisci un indirizzo email valido, per esempio nome@email.it.';
+    if (v.typeMismatch) return 'Controlla il formato di questo campo.';
+    if (v.tooShort) return 'Il testo è troppo corto.';
+    if (v.patternMismatch) return 'Controlla il formato di questo campo.';
+    return '';
+  }
+  document.addEventListener('invalid', function (e) { var el = e.target; el.setCustomValidity(''); if (!el.validity.valid) el.setCustomValidity(msg(el)); }, true);
+  document.addEventListener('input', function (e) { if (e.target.setCustomValidity) e.target.setCustomValidity(''); }, true);
+  document.addEventListener('change', function (e) { if (e.target.setCustomValidity) e.target.setCustomValidity(''); }, true);
+})();
