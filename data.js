@@ -155,6 +155,7 @@ window.RIforms = (function () {
     var v = el.validity;
     if (v.valueMissing) return el.type === 'checkbox' ? 'Spunta questa casella per continuare.' : (el.tagName === 'SELECT' ? 'Scegli una voce dall\'elenco.' : 'Compila questo campo.');
     if (v.typeMismatch && el.type === 'email') return 'Inserisci un indirizzo email valido, per esempio nome@email.it.';
+    if (v.patternMismatch && el.type === 'tel') return 'Inserisci un numero di cellulare valido, per esempio +39 333 123 4567.';
     if (v.typeMismatch) return 'Controlla il formato di questo campo.';
     if (v.tooShort) return 'Il testo è troppo corto.';
     if (v.patternMismatch) return 'Controlla il formato di questo campo.';

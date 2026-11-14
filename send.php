@@ -34,6 +34,11 @@ if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
 }
 
 $tipo = clean($_POST['tipo'] ?? 'Contatto', 60);
+if (stripos($tipo, 'Black Friday') === 0 && strlen(preg_replace('/\D/', '', $_POST['telefono'] ?? '')) < 8) {
+    http_response_code(422);
+    echo json_encode(['ok' => false, 'error' => 'Inserisci il tuo numero di cellulare, così possiamo chiamarti.']);
+    exit;
+}
 $skip = ['website', 'privacy'];
 $lines = [];
 foreach ($_POST as $k => $v) {
