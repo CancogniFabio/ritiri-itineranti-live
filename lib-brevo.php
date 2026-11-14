@@ -31,7 +31,7 @@ function ri_brevo_call($method, $path, $body = null) {
 function ri_brevo_attrs() {
     $flag = dirname(__DIR__, 2) . '/.ritiri-brevo-attrs';
     if (is_file($flag)) return;
-    foreach (['PARTENZA' => 'text', 'CODICE_BF' => 'text', 'HA_PRENOTATO' => 'boolean', 'DATA_CHIAMATA' => 'date'] as $n => $t) {
+    foreach (['PARTENZA' => 'text', 'CODICE_BF' => 'text', 'HA_PRENOTATO' => 'boolean', 'DATA_CHIAMATA' => 'date', 'NEWSLETTER' => 'boolean'] as $n => $t) {
         ri_brevo_call('POST', '/contacts/attributes/normal/' . $n, ['type' => $t]);
     }
     @file_put_contents($flag, date('c'));

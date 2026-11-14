@@ -737,3 +737,5 @@ form[hidden],.form-done[hidden],[hidden]{display:none!important}
 .bf-gallery .g-wide{grid-column:span 2}.bf-gallery .g-tall{grid-row:span 2}
 .bf-gallery img{width:100%;height:100%;object-fit:cover;border-radius:18px;display:block}
 @media (max-width:760px){.bf-gallery{grid-template-columns:1fr 1fr;grid-auto-rows:150px;gap:8px}}
+
+.check.check-small span{font-size:.85em;opacity:.85}

@@ -82,8 +82,8 @@ function ri_black_friday($email, $from) {
         $h = ['From: Fabio e Flavia · Ritiri Itineranti <ciao@ritiriitineranti.it>', 'Reply-To: ciao@ritiriitineranti.it', 'MIME-Version: 1.0', 'Content-Type: text/plain; charset=UTF-8'];
         @mail($email, mb_encode_mimeheader('Il tuo codice Black Friday: ' . $CODE, 'UTF-8'), $txt, implode("\r\n", $h));
     }
-    if (!empty($_POST['marketing'])) {
+    {
         $parts = explode(' ', $nome, 2);
-        ri_brevo_upsert($email, ['FIRSTNAME' => $parts[0], 'LASTNAME' => $parts[1] ?? '', 'WHATSAPP' => clean($_POST['telefono'] ?? '', 30), 'PARTENZA' => $dep, 'CODICE_BF' => $CODE, 'HA_PRENOTATO' => false]);
+        ri_brevo_upsert($email, ['FIRSTNAME' => $parts[0], 'LASTNAME' => $parts[1] ?? '', 'WHATSAPP' => clean($_POST['telefono'] ?? '', 30), 'PARTENZA' => $dep, 'CODICE_BF' => $CODE, 'HA_PRENOTATO' => false, 'NEWSLETTER' => !empty($_POST['marketing'])]);
     }
 }
