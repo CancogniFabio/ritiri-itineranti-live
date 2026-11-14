@@ -141,7 +141,7 @@ function loadCal(name,email,dep){
   Cal.ns.bf("inline",{elementOrSelector:"#cal-inline",calLink:CAL,config:{layout:"month_view",name:name,email:email,notes:notes}});
   Cal.ns.bf("ui",{hideEventTypeDetails:false,layout:"month_view",cssVarsPerTheme:{light:{"cal-brand":"#B6492B"}}});
   Cal.ns.bf("on",{action:"bookingSuccessful",callback:function(){box.hidden=true;document.getElementById('bf-booked').hidden=false;document.getElementById('bf-booked').scrollIntoView({behavior:'smooth',block:'center'});if(window.fbq)fbq('track','Schedule');}});
-  setTimeout(function(){box.scrollIntoView({behavior:'smooth',block:'start'})},300);
+  setTimeout(function(){var d=document.querySelector('.bf-done')||box;var y=d.getBoundingClientRect().top+window.pageYOffset-90;window.scrollTo({top:y,behavior:'smooth'})},300);
 }
 (function(){var st=document.querySelector('.bf-sticky'),hero=document.querySelector('.bf-hero'),form=document.getElementById('sconto');var vis={h:true,f:false};function u(){st.classList.toggle('in',!vis.h&&!vis.f)}
 if('IntersectionObserver' in window){new IntersectionObserver(function(e){vis.h=e[0].isIntersecting;u()}).observe(hero);new IntersectionObserver(function(e){vis.f=e[0].isIntersecting;u()}).observe(form);}})();
