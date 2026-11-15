@@ -9,7 +9,7 @@ window.RI = {
   teachers: [
     { id: "fabio", name: "Fabio", role: "Breathwork e regolazione del sistema nervoso", color: "#B6492B", initials: "F", base: "Lisbona", ig: "thebreathworkway",
       themes: ["Breathwork", "Lavoro somatico"],
-      bio: "Attraverso il respiro accompagna persone e gruppi a ritrovare il contatto con il corpo, con le emozioni e con la propria direzione. Prima di diventare insegnante di breathwork faceva l'ingegnere strutturale, e oggi lavora in modo trauma-aware sul sistema nervoso e sul corpo emotivo. Ha vissuto tra Hong Kong, l'Australia e il Portogallo, e nei viaggi porta il respiro, il lavoro somatico e, inevitabilmente, la parte più avventurosa." },
+      bio: "Attraverso il respiro accompagna persone e gruppi a ritrovare il contatto con il corpo, con le emozioni e con la propria direzione. Prima di diventare facilitatore di breathwork faceva l'ingegnere strutturale, e oggi lavora in modo trauma-aware sul sistema nervoso e sul corpo emotivo. Ha vissuto tra Hong Kong, l'Australia e il Portogallo, e nei viaggi porta il respiro, il lavoro somatico e, inevitabilmente, la parte più avventurosa." },
     { id: "flavia", name: "Flavia", role: "Yoga, meditazione e Deep Coaching", color: "#17676A", initials: "F", base: "Marocco e Italia", ig: "_the_good_space_",
       themes: ["Yoga", "Meditazione", "Coaching"],
       bio: "Insegna yoga e meditazione ed è Deep Coach, e il suo talento è creare spazi in cui il sistema nervoso si sente al sicuro e ognuno torna ad ascoltare la propria saggezza interiore. Con il progetto The Good Space unisce le persone in modo autentico e vitale. Ha vissuto tra gli Stati Uniti, la Spagna e il Marocco, e nei viaggi guida la pratica del mattino e i cerchi di condivisione." }
@@ -45,7 +45,7 @@ window.RI = {
       '<div class="dep-img"><img src="' + (d.img || ds.img) + '" alt="' + ds.country + ' · ' + ds.name + '" loading="lazy"><span class="dep-country">' + ds.country + '</span></div>' +
       '<div class="dep-body"><span class="dep-date">' + d.date + '</span><h3>' + ds.country + ' · ' + ds.name + '</h3>' +
       '<span class="dep-trip">' + ds.days + '</span>' + level(ds) + guides(d, 34) +
-      status(d) + '<div class="dep-foot"><span class="dep-price">' + price(ds) + '</span><span class="dep-seats">' + (d.status === 'open' ? 'Richiedi un posto →' : 'Avvisami →') + '</span></div></div></a>';
+      status(d) + '<div class="dep-foot"><span class="dep-price">' + price(ds) + '</span><span class="dep-seats">' + (d.status === 'open' ? 'Sali a bordo →' : 'Avvisami →') + '</span></div></div></a>';
   }
   window.RIrender = { teacher: teacher, eur: eur, avatar: avatar, depCard: depCard, dots: dots };
 
@@ -67,7 +67,7 @@ window.RI = {
       return '<article class="dep-tile"><span class="dep-date">' + d.date + '</span>' + guides(d, 44) +
         '<span class="dep-theme">' + ds.days + '</span>' + status(d) +
         '<div class="dep-foot"><span class="dep-price">' + price(ds) + '</span></div>' +
-        '<button class="btn accent" type="button" data-book="' + d.id + '">' + (open ? 'Richiedi un posto' : 'Avvisami quando apre') + '</button></article>';
+        '<button class="btn accent" type="button" data-book="' + d.id + '">' + (open ? 'Sali a bordo' : 'Avvisami quando apre') + '</button></article>';
     }).join('');
   }
 
@@ -81,7 +81,7 @@ window.RI = {
         var d = D.departures.filter(function (x) { return x.id === b.getAttribute('data-book'); })[0], dd = D.destinations[d.dest];
         var label = dd.country + ' · ' + dd.name + ' · ' + d.date;
         title.textContent = label;
-        eyebrow.textContent = d.status === 'open' ? 'Richiedi un posto' : 'Avvisami quando apre';
+        eyebrow.textContent = d.status === 'open' ? 'Sali a bordo' : 'Avvisami quando apre';
         mform.querySelector('[name=partenza]').value = label;
         mform.querySelector('[name=tipo]').value = d.status === 'open' ? 'Richiesta posto' : 'Lista d\'attesa';
         RIforms.reset(mform);
