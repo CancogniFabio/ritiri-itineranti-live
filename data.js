@@ -33,6 +33,10 @@ window.RI = {
   }
   function dots(n) { var o = ''; for (var i = 1; i <= 5; i++) o += '<i class="' + (i <= n ? 'on' : '') + '"></i>'; return '<span class="dots" aria-hidden="true">' + o + '</span>'; }
   function level(ds) { return '<span class="lvl">' + dots(ds.level) + '<span>Impegno fisico ' + ds.level + ' su 5</span></span>'; }
+  var BF = Date.now() < new Date('2026-12-04T23:59:59+01:00').getTime();
+  function bfOn(d) { return BF && d.dest === 'marocco' && d.status === 'open'; }
+  function bfLink(d) { return '/black-friday?partenza=' + encodeURIComponent(d.date) + '#sconto'; }
+  var BFPRICE = '<s class="old-price">1.400 €</s> 1.100 €<small class="eb">con lo sconto Black Friday, fino al 4 dicembre</small>';
   var LABEL = { open: 'Iscrizioni aperte', tba: 'Date esatte in arrivo', soon: 'In preparazione' };
   function status(d) { return '<div class="go ' + (d.status === 'open' ? 'ok' : 'wait') + '"><span class="go-label">' + (d.status === 'open' ? '✓ ' : '') + LABEL[d.status] + '</span></div>'; }
   function guides(d, size) {
@@ -41,11 +45,12 @@ window.RI = {
   }
   function depCard(d) {
     var ds = D.destinations[d.dest];
-    return '<a class="dep-card" href="' + ds.page + '#date" style="--c:' + ds.color + '">' +
+    var bf = bfOn(d);
+    return '<a class="dep-card" href="' + (bf ? bfLink(d) : ds.page + '#date') + '" style="--c:' + ds.color + '">' +
       '<div class="dep-img"><img src="' + (d.img || ds.img) + '" alt="' + ds.country + ' · ' + ds.name + '" loading="lazy"><span class="dep-country">' + ds.country + '</span></div>' +
       '<div class="dep-body"><span class="dep-date">' + d.date + '</span><h3>' + ds.country + ' · ' + ds.name + '</h3>' +
       '<span class="dep-trip">' + ds.days + '</span>' + level(ds) + guides(d, 34) +
-      status(d) + '<div class="dep-foot"><span class="dep-price">' + price(ds) + '</span><span class="dep-seats">' + (d.status === 'open' ? 'Sali a bordo →' : 'Avvisami →') + '</span></div></div></a>';
+      status(d) + '<div class="dep-foot"><span class="dep-price">' + (bf ? BFPRICE : price(ds)) + '</span><span class="dep-seats">' + (bf ? 'Ottieni lo sconto →' : d.status === 'open' ? 'Sali a bordo →' : 'Avvisami →') + '</span></div></div></a>';
   }
   window.RIrender = { teacher: teacher, eur: eur, avatar: avatar, depCard: depCard, dots: dots };
 
@@ -102,9 +107,10 @@ window.RI = {
       var open = d.status === 'open';
       return '<article class="dep-tile"><span class="dep-date">' + d.date + '</span>' + guides(d, 44) +
         '<span class="dep-theme">' + ds.days + '</span>' + status(d) +
-        '<div class="dep-foot"><span class="dep-price">' + price(ds) + '</span></div>' +
-        '<button class="btn accent" type="button" data-book="' + d.id + '">' + (open ? 'Sali a bordo' : 'Avvisami quando apre') + '</button></article>';
+        '<div class="dep-foot"><span class="dep-price">' + (bfOn(d) ? BFPRICE : price(ds)) + '</span></div>' +
+        (bfOn(d) ? '<a class="btn accent" href="' + bfLink(d) + '">Ottieni lo sconto</a>' : '<button class="btn accent" type="button" data-book="' + d.id + '">' + (open ? 'Sali a bordo' : 'Avvisami quando apre') + '</button>') + '</article>';
     }).join('');
+    if (BF && dest === 'marocco') tripDeps.insertAdjacentHTML('beforebegin', '<p class="bf-trip-note"><strong>Black Friday:</strong> fino al 4 dicembre il Desert Way costa 1.100 € invece di 1.400 €. Lasci i tuoi dati, ricevi il codice e prenoti una breve chiamata con noi prima di bloccare il posto. <a href="/black-friday#sconto">Ottieni lo sconto →</a></p>');
   }
 
   // ---------- booking / waitlist modal ----------
