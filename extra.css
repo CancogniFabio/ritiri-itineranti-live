@@ -774,3 +774,19 @@ section.band-saffron{background:#F6DDA9}
 .moment p{margin:0;color:var(--ink-soft)}
 .moment:not(:has(img))>div{border-top:6px solid var(--saffron);height:100%}
 @media (min-width:1100px){.moments{grid-template-columns:repeat(4,1fr)}}
+/* Filtri nella hero */
+.home-hero .search{grid-template-columns:repeat(4,1fr) auto}
+@media (max-width:860px){.home-hero .search{grid-template-columns:1fr 1fr}}
+#f-reset[hidden]{display:none}
+/* Discipline */
+.disc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:28px}
+.disc{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:18px 20px;border-top:6px solid var(--terra)}
+.disc:nth-child(4n+2){border-top-color:var(--saffron)}.disc:nth-child(4n+3){border-top-color:var(--nile)}.disc:nth-child(4n+4){border-top-color:var(--plum)}
+.disc h3{margin:6px 0;font-size:1.1rem}.disc p{margin:0;color:var(--ink-soft);font-size:.95rem}
+.disc-tag{font-size:.72rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--nile)}
+.disc.later{background:transparent;border-style:dashed;border-top-style:solid}.disc.later .disc-tag{color:var(--ink-soft)}
+.propose-band{display:flex;gap:24px;align-items:center;justify-content:space-between;background:var(--ink);color:var(--sand);border-radius:24px;padding:28px 32px;margin-top:24px}
+.propose-band h3{color:var(--sand);margin:0 0 6px}.propose-band p{margin:0;color:#D9D2C6;max-width:46em}
+@media (max-width:860px){.disc-grid{grid-template-columns:1fr 1fr}.propose-band{flex-direction:column;align-items:flex-start;padding:24px}}
+@media (max-width:480px){.disc-grid{grid-template-columns:1fr}}
+.propose-band .btn{white-space:nowrap;flex-shrink:0}

@@ -2,9 +2,9 @@
 window.RI = {
   email: "ciao@ritiriitineranti.it",
   destinations: {
-    marocco: { name: "Desert Way", country: "Marocco", page: "/marocco", img: "img/dunes.jpg", days: "7 giorni, 6 notti", price: 1400, early: 1250, earlyUntil: "31 dicembre 2026", max: 12, color: "#B6492B", level: 4, levelName: "Avventura" },
-    nilo: { name: "La Via del Nilo", country: "Egitto", page: "/nilo", img: "img/felucca.jpg", days: "8 giorni, 7 notti", price: null, max: 14, color: "#17676A", level: 1, levelName: "Dolce" },
-    cappadocia: { name: "Valli di Pietra", country: "Turchia", page: "/cappadocia", img: "img/balloons.jpg", days: "7 giorni, 6 notti", price: null, max: 12, color: "#9B3F67", level: 3, levelName: "Attivo" }
+    marocco: { name: "Desert Way", country: "Marocco", page: "/marocco", img: "img/dunes.jpg", days: "7 giorni, 6 notti", price: 1400, early: 1250, earlyUntil: "31 dicembre 2026", color: "#B6492B", level: 4, levelName: "Avventura" },
+    nilo: { name: "La Via del Nilo", country: "Egitto", page: "/nilo", img: "img/felucca.jpg", days: "8 giorni, 7 notti", price: null, color: "#17676A", level: 1, levelName: "Dolce" },
+    cappadocia: { name: "Valli di Pietra", country: "Turchia", page: "/cappadocia", img: "img/balloons.jpg", days: "7 giorni, 6 notti", price: null, color: "#9B3F67", level: 3, levelName: "Attivo" }
   },
   teachers: [
     { id: "fabio", name: "Fabio", role: "Breathwork e regolazione del sistema nervoso", color: "#B6492B", initials: "F", base: "Lisbona", ig: "thebreathworkway",
@@ -15,11 +15,11 @@ window.RI = {
       bio: "Insegna yoga e meditazione ed è Deep Coach, e il suo talento è creare spazi in cui il sistema nervoso si sente al sicuro e ognuno torna ad ascoltare la propria saggezza interiore. Con il progetto The Good Space unisce le persone in modo autentico e vitale. Ha vissuto tra gli Stati Uniti, la Spagna e il Marocco, e nei viaggi guida la pratica del mattino e i cerchi di condivisione." }
   ],
   departures: [
-    { id: "ma-apr27", dest: "marocco", sort: 202704, date: "21-27 aprile 2027", start: "2027-04-21", end: "2027-04-27", status: "open", teachers: ["fabio", "flavia"] },
-    { id: "ma-ott27", dest: "marocco", sort: 202710, date: "21-27 ottobre 2027", start: "2027-10-21", end: "2027-10-27", status: "open", img: "https://innertravels.world/wp-content/uploads/2026/07/DSC2994-1536x1024.jpg", teachers: ["fabio", "flavia"] },
-    { id: "ni-nov27", dest: "nilo", sort: 202711, date: "Novembre 2027", status: "tba", teachers: ["fabio", "flavia"] },
-    { id: "ni-feb28", dest: "nilo", sort: 202802, date: "Febbraio 2028", status: "tba", img: "img/karnak1.jpg", teachers: ["fabio", "flavia"] },
-    { id: "ca-2028", dest: "cappadocia", sort: 202809, date: "Nel 2028", status: "soon", teachers: ["fabio", "flavia"] }
+    { id: "ma-apr27", period: "Aprile 2027", dest: "marocco", sort: 202704, date: "21-27 aprile 2027", start: "2027-04-21", end: "2027-04-27", status: "open", teachers: ["fabio", "flavia"] },
+    { id: "ma-ott27", period: "Ottobre 2027", dest: "marocco", sort: 202710, date: "21-27 ottobre 2027", start: "2027-10-21", end: "2027-10-27", status: "open", img: "https://innertravels.world/wp-content/uploads/2026/07/DSC2994-1536x1024.jpg", teachers: ["fabio", "flavia"] },
+    { id: "ni-nov27", period: "Novembre 2027", dest: "nilo", sort: 202711, date: "Novembre 2027", status: "tba", teachers: ["fabio", "flavia"] },
+    { id: "ni-feb28", period: "Febbraio 2028", dest: "nilo", sort: 202802, date: "Febbraio 2028", status: "tba", img: "img/karnak1.jpg", teachers: ["fabio", "flavia"] },
+    { id: "ca-2028", period: "2028", dest: "cappadocia", sort: 202809, date: "Nel 2028", status: "soon", teachers: ["fabio", "flavia"] }
   ]
 };
 
@@ -49,13 +49,49 @@ window.RI = {
   }
   window.RIrender = { teacher: teacher, eur: eur, avatar: avatar, depCard: depCard, dots: dots };
 
-  // ---------- home: all departures ----------
+  // ---------- home: partenze con filtri collegati ----------
   var grid = document.getElementById('dep-grid');
   if (grid) {
-    var list = D.departures.slice().sort(function (a, b) { return a.sort - b.sort; });
-    grid.innerHTML = list.map(depCard).join('');
-    var count = document.getElementById('dep-count');
-    if (count) count.textContent = list.length + ' partenze';
+    var all = D.departures.slice().sort(function (a, b) { return a.sort - b.sort; });
+    function themesOf(d) { var o = []; d.teachers.forEach(function (id) { teacher(id).themes.forEach(function (t) { if (o.indexOf(t) < 0) o.push(t); }); }); return o; }
+    var sel = { dest: document.getElementById('f-dest'), period: document.getElementById('f-period'), theme: document.getElementById('f-theme'), fac: document.getElementById('f-fac') };
+    var ALL = { dest: 'Tutte', period: 'Qualsiasi', theme: 'Tutte', fac: 'Tutti' };
+    var options = { dest: [], period: [], theme: [], fac: [] };
+    all.forEach(function (d) {
+      if (options.dest.indexOf(d.dest) < 0) options.dest.push(d.dest);
+      if (options.period.indexOf(d.period) < 0) options.period.push(d.period);
+      themesOf(d).forEach(function (t) { if (options.theme.indexOf(t) < 0) options.theme.push(t); });
+      d.teachers.forEach(function (t) { if (options.fac.indexOf(t) < 0) options.fac.push(t); });
+    });
+    function has(d, k, v) {
+      if (k === 'dest') return d.dest === v;
+      if (k === 'period') return d.period === v;
+      if (k === 'theme') return themesOf(d).indexOf(v) >= 0;
+      return d.teachers.indexOf(v) >= 0;
+    }
+    function label(k, v) { if (k === 'dest') return D.destinations[v].country + ' · ' + D.destinations[v].name; if (k === 'fac') return teacher(v).name; return v; }
+    function ok(d, skip) { return Object.keys(sel).every(function (k) { return k === skip || !sel[k] || !sel[k].value || has(d, k, sel[k].value); }); }
+    var hint = document.getElementById('search-hint'), count = document.getElementById('dep-count'), reset = document.getElementById('f-reset');
+    function run() {
+      Object.keys(sel).forEach(function (k) {
+        if (!sel[k]) return;
+        var cur = sel[k].value, html = '<option value="">' + ALL[k] + '</option>';
+        options[k].forEach(function (v) {
+          var n = all.filter(function (d) { return ok(d, k) && has(d, k, v); }).length;
+          html += '<option value="' + v + '"' + (n ? '' : ' disabled') + (v === cur ? ' selected' : '') + '>' + label(k, v) + (n ? '' : ' · nessuna data') + '</option>';
+        });
+        sel[k].innerHTML = html;
+      });
+      var list = all.filter(function (d) { return ok(d, null); });
+      grid.innerHTML = list.length ? list.map(depCard).join('') : '<p class="empty">Nessuna partenza con questi filtri. Prova a toglierne uno.</p>';
+      if (count) count.textContent = list.length + (list.length === 1 ? ' partenza' : ' partenze');
+      var active = Object.keys(sel).some(function (k) { return sel[k] && sel[k].value; });
+      if (reset) reset.hidden = !active;
+      if (hint) hint.textContent = active ? (list.length === 1 ? 'Abbiamo trovato 1 partenza.' : list.length ? 'Abbiamo trovato ' + list.length + ' partenze.' : 'Nessuna partenza con questi filtri.') : '';
+    }
+    Object.keys(sel).forEach(function (k) { if (sel[k]) sel[k].addEventListener('change', run); });
+    if (reset) reset.addEventListener('click', function () { Object.keys(sel).forEach(function (k) { if (sel[k]) sel[k].value = ''; }); run(); });
+    run();
   }
 
   // ---------- trip page: departures ----------
