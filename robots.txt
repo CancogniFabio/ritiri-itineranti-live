@@ -4,3 +4,5 @@ Disallow: /area-facilitatori.html
 Disallow: /send.php
 
 Sitemap: https://ritiriitineranti.it/sitemap.xml
+User-agent: *
+Disallow: /email/
