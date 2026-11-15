@@ -128,6 +128,7 @@
 var end=new Date('2026-12-04T23:59:59+01:00').getTime();function p(n){return n<10?'0'+n:n}
 function t(){var d=Math.max(0,end-Date.now()),s=Math.floor(d/1000);document.getElementById('cd-d').textContent=Math.floor(s/86400);document.getElementById('cd-h').textContent=p(Math.floor(s%86400/3600));document.getElementById('cd-m').textContent=p(Math.floor(s%3600/60));document.getElementById('cd-s').textContent=p(s%60);}
 t();setInterval(t,1000);
+if(Date.now()>end){var jf=document.getElementById('bf-form');if(jf){jf.parentNode.innerHTML='<div class="bf-done"><span class="eyebrow">Offerta terminata</span><h3>Il Black Friday si è chiuso il 4 dicembre</h3><p>Fino al 31 dicembre il Desert Way resta al prezzo early bird di 1.250 €. Guarda le partenze o scrivici a ciao@ritiriitineranti.it.</p><p style="margin-top:14px"><a class="btn accent" href="/marocco#date">Vedi le partenze</a></p></div>';}}
 try{var qp=new URLSearchParams(location.search).get('partenza');if(qp){var sd=document.getElementById('bf-dep');for(var i=0;i<sd.options.length;i++){if(qp.indexOf(sd.options[i].text.split(' ')[0])===0&&qp.indexOf(sd.options[i].text.split(' ')[1])>0)sd.selectedIndex=i;}}}catch(e){}
 document.addEventListener('click',function(e){var a=e.target.closest('[data-pick]');if(a)document.getElementById('bf-dep').value=a.getAttribute('data-pick');});
 var CODE='SAHARA300',CAL='ritiri-itineranti/blackfriday';

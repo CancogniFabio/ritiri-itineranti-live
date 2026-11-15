@@ -34,6 +34,11 @@ if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
 }
 
 $tipo = clean($_POST['tipo'] ?? 'Contatto', 60);
+if (stripos($tipo, 'Black Friday') === 0 && time() > strtotime('2026-12-04 23:59:59 Europe/Rome')) {
+    http_response_code(410);
+    echo json_encode(['ok' => false, 'error' => 'L\'offerta Black Friday si è chiusa il 4 dicembre. Scrivici a ciao@ritiriitineranti.it.']);
+    exit;
+}
 if (stripos($tipo, 'Black Friday') === 0 && strlen(preg_replace('/\D/', '', $_POST['telefono'] ?? '')) < 8) {
     http_response_code(422);
     echo json_encode(['ok' => false, 'error' => 'Inserisci il tuo numero di cellulare, così possiamo chiamarti.']);
