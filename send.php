@@ -89,7 +89,7 @@ function ri_black_friday($email, $from) {
     }
     {
         $parts = explode(' ', $nome, 2);
-        ri_brevo_upsert($email, ['FIRSTNAME' => $parts[0], 'LASTNAME' => $parts[1] ?? '', 'WHATSAPP' => clean($_POST['telefono'] ?? '', 30), 'PARTENZA' => $dep, 'CODICE_BF' => $CODE, 'HA_PRENOTATO' => false, 'NEWSLETTER' => !empty($_POST['marketing'])], empty($_POST['promemoria']) ? false : null);
-        // Senza consenso ai promemoria il contatto non entra nella lista Black Friday, quindi non riceve la sequenza.
+        ri_brevo_upsert($email, ['FIRSTNAME' => $parts[0], 'LASTNAME' => $parts[1] ?? '', 'WHATSAPP' => clean($_POST['telefono'] ?? '', 30), 'PARTENZA' => $dep, 'CODICE_BF' => $CODE, 'HA_PRENOTATO' => false, 'NEWSLETTER' => !empty($_POST['consenso'])], empty($_POST['consenso']) ? false : null);
+        // Il consenso (obbligatorio nel modulo) fa entrare il contatto nella lista Black Friday e nella community.
     }
 }
