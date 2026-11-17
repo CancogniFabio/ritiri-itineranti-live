@@ -809,3 +809,4 @@ section.band-saffron{background:#F6DDA9}
 .reveal-on .gallery figure.in{opacity:1;transform:none}
 @media (prefers-reduced-motion:reduce){.reveal-on .gallery figure{opacity:1!important;transform:none!important;transition:none}}
 .reveal-on .gallery{overflow:clip;overflow-clip-margin:12px}
+.quiz-teaser .btn{white-space:nowrap;flex-shrink:0}
