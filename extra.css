@@ -811,3 +811,7 @@ section.band-saffron{background:#F6DDA9}
 .reveal-on .gallery{overflow:clip;overflow-clip-margin:12px}
 .quiz-teaser .btn{white-space:nowrap;flex-shrink:0}
 h1 .hero-eyebrow{font-family:var(--body);font-size:.8rem;display:block;margin:0 0 14px;line-height:1.4}
+/* Sezioni: titoli e card compaiono con una dissolvenza leggera */
+.fx-on .fx{opacity:0;transform:translateY(22px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.2,1)}
+.fx-on .fx.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.fx-on .fx{opacity:1!important;transform:none!important;transition:none}}

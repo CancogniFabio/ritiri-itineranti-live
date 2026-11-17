@@ -219,3 +219,19 @@ window.RIforms = (function () {
   }, { threshold: 0.15, rootMargin: '0px 0px -8% 0px' });
   figs.forEach(function (f, i) { f.style.transitionDelay = (i % 3) * 90 + 'ms'; io.observe(f); });
 })();
+
+// Sezioni: titoli, testi e card entrano con una dissolvenza dal basso
+(function () {
+  if (!('IntersectionObserver' in window)) return;
+  var sel = 'main section:not(.home-hero):not(.page-hero) .eyebrow, main section:not(.home-hero):not(.page-hero) h2, main section:not(.home-hero):not(.page-hero) .lead, .three > div, .pt, .dest-card, .dep-card, .how > div, .disc, .moment, .card, .faq details, .why > div, .first-story p, .quiz-teaser, .propose-band, .day, .bf-ingr > *, .bf-days > *';
+  var els = [].slice.call(document.querySelectorAll(sel)).filter(function (e) { return !e.closest('.gallery, .site-header, .home-hero, .page-hero, .modal, form, .scroll-row'); });
+  if (!els.length) return;
+  document.documentElement.classList.add('fx-on');
+  var io = new IntersectionObserver(function (es) {
+    es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: 0.12, rootMargin: '0px 0px -6% 0px' });
+  els.forEach(function (e) {
+    var sibs = e.parentNode ? [].indexOf.call(e.parentNode.children, e) : 0;
+    e.classList.add('fx'); e.style.transitionDelay = Math.min(sibs, 5) * 70 + 'ms'; io.observe(e);
+  });
+})();
