@@ -46,11 +46,11 @@ window.RI = {
   function depCard(d) {
     var ds = D.destinations[d.dest];
     var bf = bfOn(d);
-    return '<a class="dep-card" href="' + (bf ? bfLink(d) : ds.page + '#date') + '" style="--c:' + ds.color + '">' +
+    return '<a class="dep-card" href="' + (bf ? ds.page : ds.page + '#date') + '" style="--c:' + ds.color + '">' +
       '<div class="dep-img"><img src="' + (d.img || ds.img) + '" alt="' + ds.country + ' · ' + ds.name + '" loading="lazy"><span class="dep-country">' + ds.country + '</span></div>' +
       '<div class="dep-body"><span class="dep-date">' + d.date + '</span><h3>' + ds.country + ' · ' + ds.name + '</h3>' +
       '<span class="dep-trip">' + ds.days + '</span>' + level(ds) + guides(d, 34) +
-      status(d) + '<div class="dep-foot"><span class="dep-price">' + (bf ? BFPRICE : price(ds)) + '</span><span class="dep-seats">' + (bf ? 'Ottieni lo sconto →' : d.status === 'open' ? 'Sali a bordo →' : 'Avvisami →') + '</span></div></div></a>';
+      status(d) + '<div class="dep-foot"><span class="dep-price">' + (bf ? BFPRICE : price(ds)) + '</span><span class="dep-seats">' + (bf ? 'Scopri il viaggio →' : d.status === 'open' ? 'Sali a bordo →' : 'Avvisami →') + '</span></div></div></a>';
   }
   window.RIrender = { teacher: teacher, eur: eur, avatar: avatar, depCard: depCard, dots: dots };
 
