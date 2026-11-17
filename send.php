@@ -67,12 +67,25 @@ $headers = [
 if (mail($TO, $subject, $body, implode("\r\n", $headers))) {
     if (stripos($tipo, 'Black Friday') === 0) ri_black_friday($email, $FROM);
     if (stripos($tipo, 'Quiz') === 0) ri_quiz($email);
+    if (stripos($tipo, 'Avvisami') === 0) ri_avvisami($email, trim(substr($tipo, strpos($tipo, '·') !== false ? strpos($tipo, '·') + 2 : 8)));
     echo json_encode(['ok' => true]);
 } else {
     http_response_code(500);
     echo json_encode(['ok' => false, 'error' => 'Invio non riuscito. Scrivici a ' . $TO . '.']);
 }
 
+
+// Avvisami: chi vuole sapere quando aprono le date di un viaggio entra nella lista generale su Brevo.
+function ri_avvisami($email, $dest) {
+    $nome = clean($_POST['nome'] ?? '', 80);
+    $parts = preg_split('/\s+/', trim($nome), 2);
+    $tel = clean($_POST['telefono'] ?? '', 40);
+    $c = ri_config();
+    $list = $c['avvisami_list'] ?? ri_brevo_list_by_name('avvis');
+    $attrs = ['FIRSTNAME' => $parts[0], 'LASTNAME' => $parts[1] ?? '', 'DESTINAZIONE_INTERESSE' => $dest, 'NEWSLETTER' => true];
+    if ($tel !== '') $attrs['WHATSAPP'] = $tel;
+    ri_brevo_upsert($email, $attrs, $list ?: false);
+}
 
 // Quiz: email con il profilo e contatto nella lista Quiz Viaggiatore su Brevo.
 function ri_quiz($email) {

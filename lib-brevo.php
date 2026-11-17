@@ -29,9 +29,9 @@ function ri_brevo_call($method, $path, $body = null) {
 }
 // La prima volta crea su Brevo i campi che usiamo, poi lascia un segnaposto accanto al file di configurazione.
 function ri_brevo_attrs() {
-    $flag = dirname(__DIR__, 2) . '/.ritiri-brevo-attrs-2';
+    $flag = dirname(__DIR__, 2) . '/.ritiri-brevo-attrs-3';
     if (is_file($flag)) return;
-    foreach (['PARTENZA' => 'text', 'CODICE_BF' => 'text', 'HA_PRENOTATO' => 'boolean', 'DATA_CHIAMATA' => 'date', 'NEWSLETTER' => 'boolean', 'PROFILO_QUIZ' => 'text'] as $n => $t) {
+    foreach (['PARTENZA' => 'text', 'CODICE_BF' => 'text', 'HA_PRENOTATO' => 'boolean', 'DATA_CHIAMATA' => 'date', 'NEWSLETTER' => 'boolean', 'PROFILO_QUIZ' => 'text', 'DESTINAZIONE_INTERESSE' => 'text'] as $n => $t) {
         ri_brevo_call('POST', '/contacts/attributes/normal/' . $n, ['type' => $t]);
     }
     @file_put_contents($flag, date('c'));
@@ -51,4 +51,19 @@ function ri_brevo_upsert($email, $attrs, $listId = null) {
 function ri_brevo_template($templateId, $email, $name, $params) {
     $code = ri_brevo_call('POST', '/smtp/email', ['templateId' => (int)$templateId, 'to' => [array_filter(['email' => $email, 'name' => $name])], 'params' => (object)$params]);
     return $code >= 200 && $code < 300;
+}
+
+// Trova l'id di una lista Brevo dal nome (prima che contiene il testo dato), e lo ricorda in un file accanto alla configurazione.
+function ri_brevo_list_by_name($needle) {
+    $cache = dirname(__DIR__, 2) . '/.ritiri-brevo-list-' . preg_replace('/\W/', '', $needle);
+    if (is_file($cache)) return (int)file_get_contents($cache);
+    $c = ri_config();
+    if (empty($c['brevo_key'])) return 0;
+    $ch = curl_init('https://api.brevo.com/v3/contacts/lists?limit=50');
+    curl_setopt_array($ch, [CURLOPT_RETURNTRANSFER => true, CURLOPT_TIMEOUT => 8, CURLOPT_HTTPHEADER => ['api-key: ' . $c['brevo_key'], 'Accept: application/json']]);
+    $r = json_decode((string)curl_exec($ch), true); curl_close($ch);
+    foreach (($r['lists'] ?? []) as $l) {
+        if (stripos($l['name'], $needle) !== false) { @file_put_contents($cache, (string)$l['id']); return (int)$l['id']; }
+    }
+    return 0;
 }
