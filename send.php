@@ -67,6 +67,7 @@ $headers = [
 if (mail($TO, $subject, $body, implode("\r\n", $headers))) {
     if (stripos($tipo, 'Black Friday') === 0) ri_black_friday($email, $FROM);
     if (stripos($tipo, 'Quiz') === 0) ri_quiz($email);
+    if ($tipo === 'Iscrizione community' && !empty($_POST['consenso_email'])) ri_brevo_upsert($email, ['FIRSTNAME' => clean($_POST['nome'] ?? '', 60), 'LASTNAME' => clean($_POST['cognome'] ?? '', 60), 'WHATSAPP' => clean($_POST['telefono'] ?? '', 30), 'NEWSLETTER' => true], ri_community_list() ?: false);
     if (stripos($tipo, 'Avvisami') === 0) ri_avvisami($email, trim(substr($tipo, strpos($tipo, '·') !== false ? strpos($tipo, '·') + 2 : 8)));
     echo json_encode(['ok' => true]);
 } else {
@@ -81,10 +82,9 @@ function ri_avvisami($email, $dest) {
     $parts = preg_split('/\s+/', trim($nome), 2);
     $tel = clean($_POST['telefono'] ?? '', 40);
     $c = ri_config();
-    $list = $c['avvisami_list'] ?? ri_brevo_list_by_name('avvis');
     $attrs = ['FIRSTNAME' => $parts[0], 'LASTNAME' => $parts[1] ?? '', 'DESTINAZIONE_INTERESSE' => $dest, 'NEWSLETTER' => true];
     if ($tel !== '') $attrs['WHATSAPP'] = $tel;
-    ri_brevo_upsert($email, $attrs, $list ?: false);
+    ri_brevo_upsert($email, $attrs, ri_community_list() ?: false);
 }
 
 // Quiz: email con il profilo e contatto nella lista Quiz Viaggiatore su Brevo.
@@ -102,7 +102,7 @@ function ri_quiz($email) {
     $first = trim(explode(' ', $nome)[0]);
     $c = ri_config();
     ri_brevo_template($c['quiz_template'] ?? 8, $email, $nome, ['NOME' => $first, 'PROFILO' => $titolo, 'DESCRIZIONE' => $desc, 'VIAGGIO' => $viaggio, 'IMPEGNO' => $impegno, 'LINK' => $link]);
-    ri_brevo_upsert($email, ['FIRSTNAME' => $first, 'PROFILO_QUIZ' => $k, 'NEWSLETTER' => !empty($_POST['consenso_email'])], $c['quiz_list'] ?? 8);
+    ri_brevo_upsert($email, ['FIRSTNAME' => $first, 'PROFILO_QUIZ' => $k, 'NEWSLETTER' => !empty($_POST['consenso_email'])], empty($_POST['consenso_email']) ? [$c['quiz_list'] ?? 8] : [$c['quiz_list'] ?? 8, ri_community_list()]);
 }
 
 // Black Friday: email con il codice a chi compila il modulo, e contatto su Brevo per i promemoria.
@@ -128,7 +128,7 @@ function ri_black_friday($email, $from) {
     }
     {
         $parts = explode(' ', $nome, 2);
-        ri_brevo_upsert($email, ['FIRSTNAME' => $parts[0], 'LASTNAME' => $parts[1] ?? '', 'WHATSAPP' => clean($_POST['telefono'] ?? '', 30), 'PARTENZA' => $dep, 'CODICE_BF' => $CODE, 'HA_PRENOTATO' => false, 'NEWSLETTER' => !empty($_POST['consenso'])], empty($_POST['consenso']) ? false : null);
+        ri_brevo_upsert($email, ['FIRSTNAME' => $parts[0], 'LASTNAME' => $parts[1] ?? '', 'WHATSAPP' => clean($_POST['telefono'] ?? '', 30), 'PARTENZA' => $dep, 'CODICE_BF' => $CODE, 'HA_PRENOTATO' => false, 'NEWSLETTER' => !empty($_POST['consenso'])], empty($_POST['consenso']) ? false : [ri_config()['brevo_list'] ?? 4, ri_community_list()]);
         // Il consenso (obbligatorio nel modulo) fa entrare il contatto nella lista Black Friday e nella community.
     }
 }

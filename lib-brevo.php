@@ -43,7 +43,8 @@ function ri_brevo_upsert($email, $attrs, $listId = null) {
     ri_brevo_attrs();
     $body = ['email' => $email, 'attributes' => (object)$attrs, 'updateEnabled' => true];
     $list = $listId === false ? null : ($listId ?: ($c['brevo_list'] ?? null));
-    if ($list) $body['listIds'] = [(int)$list];
+    $ids = array_values(array_filter(array_map('intval', is_array($list) ? $list : [$list])));
+    if ($ids) $body['listIds'] = $ids;
     $code = ri_brevo_call('POST', '/contacts', $body);
     return $code >= 200 && $code < 300;
 }
@@ -66,4 +67,10 @@ function ri_brevo_list_by_name($needle) {
         if (stripos($l['name'], $needle) !== false) { @file_put_contents($cache, (string)$l['id']); return (int)$l['id']; }
     }
     return 0;
+}
+
+// La lista generale della community: tutti i contatti che hanno detto sì alle novità.
+function ri_community_list() {
+    $c = ri_config();
+    return (int)($c['community_list'] ?? ri_brevo_list_by_name('community'));
 }
