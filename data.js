@@ -208,14 +208,46 @@ window.RIforms = (function () {
   document.addEventListener('change', function (e) { if (e.target.setCustomValidity) e.target.setCustomValidity(''); }, true);
 })();
 
-// Gallerie: ogni foto appare quando entra nello schermo
+// Gallerie: la sezione resta ferma e ogni tratto di scorrimento aggiunge una foto
 (function () {
-  if (!('IntersectionObserver' in window)) return;
-  var figs = document.querySelectorAll('.gallery figure');
-  if (!figs.length) return;
-  document.documentElement.classList.add('reveal-on');
-  var io = new IntersectionObserver(function (es) {
-    es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
-  }, { threshold: 0.15, rootMargin: '0px 0px -8% 0px' });
-  figs.forEach(function (f, i) { f.style.transitionDelay = (i % 3) * 90 + 'ms'; io.observe(f); });
+  if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var hdr = document.querySelector('.site-header');
+  function H() { return hdr ? hdr.offsetHeight : 0; }
+  document.documentElement.style.setProperty('--hdr', H() + 'px');
+  var D = [[-1, 0], [0, 1], [1, 0], [0, -1]];
+  var stages = [];
+  document.querySelectorAll('.gallery').forEach(function (g) {
+    var figs = g.querySelectorAll('figure');
+    if (figs.length < 3) return;
+    var wrap = document.createElement('div'); wrap.className = 'pin-wrap';
+    g.parentNode.insertBefore(wrap, g); wrap.appendChild(g); g.classList.add('pin-stage');
+    var step = 55; // vh di scorrimento per ogni foto: più alto = più lento
+    wrap.style.height = 'calc(100vh + ' + (figs.length * step) + 'vh)';
+    figs.forEach(function (f, i) {
+      var mob = innerWidth < 700, cols = mob ? 2 : 4, rows = Math.ceil(figs.length / cols);
+      var w = mob ? 62 : 34, c = i % cols, r = Math.floor(i / cols) % Math.max(rows, 1);
+      var x = (c / Math.max(cols - 1, 1)) * (100 - w) + ((i * 37) % 7 - 3);
+      var y = (rows > 1 ? r / (rows - 1) : .3) * (mob ? 70 : 50) + ((i * 53) % 9 - 4) + 4;
+      var d = D[i % 4], rot = ((i * 47) % 13) - 6;
+      f.style.setProperty('--x', Math.max(0, Math.min(100 - w, x)) + '%');
+      f.style.setProperty('--y', Math.max(0, y) + '%');
+      f.style.setProperty('--w', w + '%');
+      f.style.setProperty('--r', rot + 'deg');
+      f.style.setProperty('--r0', (rot + d[0] * 8) + 'deg');
+      f.style.setProperty('--dx', (d[0] * 60) + 'vw');
+      f.style.setProperty('--dy', (d[1] * 60) + 'vh');
+      f.style.zIndex = i + 1;
+    });
+    stages.push({ wrap: wrap, figs: figs });
+  });
+  if (!stages.length) return;
+  function tick() {
+    stages.forEach(function (s) {
+      var r = s.wrap.getBoundingClientRect(), total = r.height - innerHeight;
+      var p = Math.min(1, Math.max(0, (H() - r.top) / Math.max(total, 1)));
+      var n = Math.round(p * s.figs.length + 0.35);
+      s.figs.forEach(function (f, i) { f.classList.toggle('in', i < n); });
+    });
+  }
+  addEventListener('scroll', tick, { passive: true }); addEventListener('resize', tick); tick();
 })();

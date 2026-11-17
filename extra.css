@@ -799,12 +799,10 @@ section.band-saffron{background:#F6DDA9}
 .propose-form .check span,.propose-form .check a{color:#D9D2C6}
 .propose-band .join-done{color:var(--sand)}
 .propose-form textarea{padding:12px 14px;border-radius:12px;border:1px solid #4a466b;background:#2E2A4B;color:#fff;font:inherit;resize:vertical}
-/* Gallerie: le foto entrano scorrendo, da direzioni diverse */
-.reveal-on .gallery figure{opacity:0;transition:opacity .8s ease,transform .8s cubic-bezier(.2,.7,.2,1)}
-.reveal-on .gallery figure:nth-child(4n+1){transform:translate(-50px,30px) rotate(-2deg)}
-.reveal-on .gallery figure:nth-child(4n+2){transform:translateY(60px) scale(.94)}
-.reveal-on .gallery figure:nth-child(4n+3){transform:translate(50px,30px) rotate(2deg)}
-.reveal-on .gallery figure:nth-child(4n+4){transform:translateY(-40px) scale(.94)}
-.reveal-on .gallery figure.in{opacity:1;transform:none}
-@media (prefers-reduced-motion:reduce){.reveal-on .gallery figure{opacity:1!important;transform:none!important;transition:none}}
-.reveal-on .gallery{overflow:clip;overflow-clip-margin:12px}
+.bf-submit{font-family:inherit;justify-content:center;text-align:center;font-size:1.1rem;font-weight:800;width:100%}
+/* Gallerie: la pagina si ferma e scorrendo arrivano le foto */
+.pin-wrap{position:relative}
+.pin-stage.gallery{position:sticky;display:block;height:calc(100vh - var(--hdr,72px));height:calc(100svh - var(--hdr,72px));top:var(--hdr,72px);overflow:hidden;margin:0}
+.pin-stage figure{position:absolute;margin:0;left:var(--x);top:var(--y);width:var(--w);aspect-ratio:4/3;padding:8px;background:#fff;border-radius:6px;box-shadow:0 14px 34px rgba(35,32,59,.22);opacity:0;transform:translate(var(--dx),var(--dy)) rotate(var(--r0));transition:opacity .9s ease,transform 1.1s cubic-bezier(.2,.7,.2,1);grid-column:auto!important;grid-row:auto!important}
+.pin-stage figure img{width:100%;height:100%;max-width:none;object-fit:cover;display:block;border-radius:3px}
+.pin-stage figure.in{opacity:1;transform:translate(0,0) rotate(var(--r))}
