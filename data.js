@@ -110,7 +110,7 @@ window.RI = {
         '<div class="dep-foot"><span class="dep-price">' + (bfOn(d) ? BFPRICE : price(ds)) + '</span></div>' +
         (bfOn(d) ? '<a class="btn accent" href="' + bfLink(d) + '">Ottieni lo sconto</a>' : '<button class="btn accent" type="button" data-book="' + d.id + '">' + (open ? 'Sali a bordo' : 'Avvisami quando apre') + '</button>') + '</article>';
     }).join('');
-    if (BF && dest === 'marocco') tripDeps.insertAdjacentHTML('beforebegin', '<p class="bf-trip-note"><strong>Black Friday:</strong> fino al 4 dicembre il Desert Way costa 1.100 € invece di 1.400 €. Lasci i tuoi dati, ricevi il codice e prenoti una breve chiamata con noi prima di bloccare il posto. <a href="/black-friday#sconto">Ottieni lo sconto →</a></p>');
+    if (BF && dest === 'marocco') tripDeps.insertAdjacentHTML('beforebegin', '<p class="bf-trip-note"><strong>Black Friday:</strong> fino al 4 dicembre il Desert Way costa 1.100 € invece di 1.400 €. Lasci i tuoi dati e ricevi il codice e la guida completa del viaggio, poi prenoti una consulenza gratuita oppure blocchi direttamente il posto. <a href="/black-friday#sconto">Ottieni lo sconto →</a></p>');
   }
 
   // ---------- booking / waitlist modal ----------
@@ -206,4 +206,16 @@ window.RIforms = (function () {
   document.addEventListener('invalid', function (e) { var el = e.target; el.setCustomValidity(''); if (!el.validity.valid) el.setCustomValidity(msg(el)); }, true);
   document.addEventListener('input', function (e) { if (e.target.setCustomValidity) e.target.setCustomValidity(''); }, true);
   document.addEventListener('change', function (e) { if (e.target.setCustomValidity) e.target.setCustomValidity(''); }, true);
+})();
+
+// Gallerie: ogni foto appare quando entra nello schermo
+(function () {
+  if (!('IntersectionObserver' in window)) return;
+  var figs = document.querySelectorAll('.gallery figure');
+  if (!figs.length) return;
+  document.documentElement.classList.add('reveal-on');
+  var io = new IntersectionObserver(function (es) {
+    es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: 0.15, rootMargin: '0px 0px -8% 0px' });
+  figs.forEach(function (f, i) { f.style.transitionDelay = (i % 3) * 90 + 'ms'; io.observe(f); });
 })();

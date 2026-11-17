@@ -83,8 +83,10 @@ function ri_black_friday($email, $from) {
     $txt = "Ciao " . ($first ?: '') . ",\n\n"
          . "ecco il tuo codice Black Friday per il Desert Way: " . $CODE . "\n"
          . "Vale 300 € di sconto, quindi il viaggio ti costa 1.100 € invece di 1.400 €.\n\n"
-         . "Il prossimo passo è una chiamata di 20 minuti con noi, in cui ci conosciamo e rispondiamo alle tue domande. Puoi prenotarla qui:\n" . $link . "\n\n"
-         . "Il codice vale per chi lo ha richiesto entro il 4 dicembre 2026, anche se la chiamata cade qualche giorno dopo.\n\n"
+         . "Qui trovi la guida completa del Desert Way:\nhttps://drive.google.com/file/d/128SIWOEsKJvmga7XMrIk9_DZYlDyMDYD/view?usp=sharing\n\n"
+         . "Se vuoi conoscerci prima di decidere, prenota una consulenza gratuita di 20 minuti:\n" . $link . "\n\n"
+         . "Se hai già deciso, rispondi a questa email e ti mandiamo i dati per bloccare il posto.\n\n"
+         . "Il codice vale per chi lo ha richiesto entro il 4 dicembre 2026, anche se la consulenza cade qualche giorno dopo.\n\n"
          . "A presto,\nFabio e Flavia\nRitiri Itineranti\n";
     $c = ri_config();
     $sent = !empty($c['bf_template']) && ri_brevo_template($c['bf_template'], $email, $nome, ['NOME' => $first, 'CAL_LINK' => $link, 'PARTENZA' => $dep]);

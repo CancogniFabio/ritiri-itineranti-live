@@ -799,3 +799,12 @@ section.band-saffron{background:#F6DDA9}
 .propose-form .check span,.propose-form .check a{color:#D9D2C6}
 .propose-band .join-done{color:var(--sand)}
 .propose-form textarea{padding:12px 14px;border-radius:12px;border:1px solid #4a466b;background:#2E2A4B;color:#fff;font:inherit;resize:vertical}
+/* Gallerie: le foto entrano scorrendo, da direzioni diverse */
+.reveal-on .gallery figure{opacity:0;transition:opacity .8s ease,transform .8s cubic-bezier(.2,.7,.2,1)}
+.reveal-on .gallery figure:nth-child(4n+1){transform:translate(-50px,30px) rotate(-2deg)}
+.reveal-on .gallery figure:nth-child(4n+2){transform:translateY(60px) scale(.94)}
+.reveal-on .gallery figure:nth-child(4n+3){transform:translate(50px,30px) rotate(2deg)}
+.reveal-on .gallery figure:nth-child(4n+4){transform:translateY(-40px) scale(.94)}
+.reveal-on .gallery figure.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.reveal-on .gallery figure{opacity:1!important;transform:none!important;transition:none}}
+.reveal-on .gallery{overflow:clip;overflow-clip-margin:12px}
