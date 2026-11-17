@@ -66,12 +66,31 @@ $headers = [
 
 if (mail($TO, $subject, $body, implode("\r\n", $headers))) {
     if (stripos($tipo, 'Black Friday') === 0) ri_black_friday($email, $FROM);
+    if (stripos($tipo, 'Quiz') === 0) ri_quiz($email);
     echo json_encode(['ok' => true]);
 } else {
     http_response_code(500);
     echo json_encode(['ok' => false, 'error' => 'Invio non riuscito. Scrivici a ' . $TO . '.']);
 }
 
+
+// Quiz: email con il profilo e contatto nella lista Quiz Viaggiatore su Brevo.
+function ri_quiz($email) {
+    $P = [
+        'Esploratore' => ["L'Esploratore", "Hai bisogno di spazio, fatica buona e cieli enormi. Il silenzio lo trovi camminando, e le pratiche ti arrivano meglio dopo una giornata sulle dune.", 'Marocco · Desert Way', 'Impegno fisico 4 su 5', 'https://ritiriitineranti.it/marocco'],
+        'Contemplativo' => ['Il Contemplativo', "Ti ricarichi rallentando. Ti serve un ritmo lento, comodità la sera e tanto tempo per ascoltarti, mentre il paesaggio scorre da solo.", 'Egitto · La Via del Nilo', 'Impegno fisico 1 su 5', 'https://ritiriitineranti.it/nilo'],
+        'Cercatore' => ['Il Cercatore', "Sei curioso di tutto, fuori e dentro di te. Ti piacciono le storie dei posti, le persone che ci vivono e le domande che restano anche dopo.", 'Turchia · Valli di Pietra', 'Impegno fisico 3 su 5 · in arrivo nel 2028', 'https://ritiriitineranti.it/cappadocia'],
+        'Primo Passo' => ['Il Primo Passo', "Vorresti prenderti del tempo da anni, ma una settimana lontano ti sembra tanto. Va benissimo così, e per iniziare ti consigliamo il viaggio più dolce che abbiamo, sul Nilo, dove la sera c'è sempre un letto comodo.", 'Egitto · La Via del Nilo', 'Il nostro viaggio più dolce, impegno fisico 1 su 5', 'https://ritiriitineranti.it/nilo'],
+    ];
+    $k = clean($_POST['profilo'] ?? '', 40);
+    if (!isset($P[$k])) $k = 'Primo Passo';
+    [$titolo, $desc, $viaggio, $impegno, $link] = $P[$k];
+    $nome = clean($_POST['nome'] ?? '', 80);
+    $first = trim(explode(' ', $nome)[0]);
+    $c = ri_config();
+    ri_brevo_template($c['quiz_template'] ?? 8, $email, $nome, ['NOME' => $first, 'PROFILO' => $titolo, 'DESCRIZIONE' => $desc, 'VIAGGIO' => $viaggio, 'IMPEGNO' => $impegno, 'LINK' => $link]);
+    ri_brevo_upsert($email, ['FIRSTNAME' => $first, 'PROFILO_QUIZ' => $k, 'NEWSLETTER' => !empty($_POST['consenso_email'])], $c['quiz_list'] ?? 8);
+}
 
 // Black Friday: email con il codice a chi compila il modulo, e contatto su Brevo per i promemoria.
 function ri_black_friday($email, $from) {
