@@ -85,6 +85,20 @@ function ri_avvisami($email, $dest) {
     $attrs = ['FIRSTNAME' => $parts[0], 'LASTNAME' => $parts[1] ?? '', 'DESTINAZIONE_INTERESSE' => $dest, 'NEWSLETTER' => true];
     if ($tel !== '') $attrs['WHATSAPP'] = $tel;
     ri_brevo_upsert($email, $attrs, ri_community_list() ?: false);
+    // Email di conferma con la foto della destinazione (modello Brevo "Avvisami · Conferma iscrizione").
+    $D = [
+        'nilo'       => ['La Via del Nilo', 'il Nilo', '/nilo', 'avvisami-nilo.jpg', 'Le colonne di un tempio egizio lungo il Nilo'],
+        'cappadocia' => ['Cappadocia', 'la Cappadocia', '/cappadocia', 'avvisami-cappadocia.jpg', 'Le rocce scolpite della Cappadocia'],
+    ];
+    $k = strtolower(trim($dest));
+    if (isset($D[$k])) {
+        [$viaggio, $dst, $path, $img, $alt] = $D[$k];
+        ri_brevo_template($c['avvisami_template'] ?? 13, $email, $nome, [
+            'NOME' => $parts[0], 'VIAGGIO' => $viaggio, 'DEST' => $dst,
+            'LINK' => 'https://ritiriitineranti.it' . $path,
+            'IMG' => 'https://ritiriitineranti.it/img/email/' . $img, 'ALT' => $alt,
+        ]);
+    }
 }
 
 // Quiz: email con il profilo e contatto nella lista Quiz Viaggiatore su Brevo.
