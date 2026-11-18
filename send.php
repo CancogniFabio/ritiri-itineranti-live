@@ -87,14 +87,14 @@ function ri_avvisami($email, $dest) {
     ri_brevo_upsert($email, $attrs, ri_community_list() ?: false);
     // Email di conferma con la foto della destinazione (modello Brevo "Avvisami · Conferma iscrizione").
     $D = [
-        'nilo'       => ['la Via del Nilo', 'il Nilo', '/nilo', 'avvisami-egitto.jpg', 'Le statue colossali del tempio di Abu Simbel'],
-        'cappadocia' => ['la Cappadocia', 'la Cappadocia', '/cappadocia', 'avvisami-cappadocia-mongolfiere.jpg', "Mongolfiere all'alba sopra le valli della Cappadocia"],
+        'nilo'       => ['la Via del Nilo', 'il Nilo', '/nilo', 'avvisami-egitto.jpg', 'Le statue colossali del tempio di Abu Simbel', '⛵'],
+        'cappadocia' => ['la Cappadocia', 'la Cappadocia', '/cappadocia', 'avvisami-cappadocia-mongolfiere.jpg', "Mongolfiere all'alba sopra le valli della Cappadocia", '🎈'],
     ];
     $k = strtolower(trim($dest));
     if (isset($D[$k])) {
-        [$viaggio, $dst, $path, $img, $alt] = $D[$k];
+        [$viaggio, $dst, $path, $img, $alt, $emoji] = $D[$k];
         ri_brevo_template($c['avvisami_template'] ?? 13, $email, $nome, [
-            'NOME' => $parts[0], 'VIAGGIO' => $viaggio, 'DEST' => $dst,
+            'NOME' => $parts[0], 'VIAGGIO' => $viaggio, 'DEST' => $dst, 'EMOJI' => $emoji,
             'LINK' => 'https://ritiriitineranti.it' . $path,
             'IMG' => 'https://ritiriitineranti.it/img/email/' . $img, 'ALT' => $alt,
         ]);
