@@ -123,9 +123,9 @@ function ri_black_friday($email, $from) {
     $parts = explode(' ', $nome, 2);
     // Prima salviamo il contatto, così l'email può usare i suoi dati (nome, email).
     $saved = ri_brevo_upsert($email, ['FIRSTNAME' => $parts[0], 'LASTNAME' => $parts[1] ?? '', 'WHATSAPP' => clean($_POST['telefono'] ?? '', 30), 'PARTENZA' => $dep, 'CODICE_BF' => $CODE, 'HA_PRENOTATO' => false, 'NEWSLETTER' => !empty($_POST['consenso'])], empty($_POST['consenso']) ? false : [ri_config()['brevo_list'] ?? 4, ri_community_list()]);
-    $c = ri_config();
-    $sent = !empty($c['bf_template']) && ri_brevo_template($c['bf_template'], $email, $nome, ['NOME' => $first, 'CAL_LINK' => $link, 'PARTENZA' => $dep]);
-    if (!$sent) {
+    // L'email con il codice (BF00) parte dal workflow di Brevo appena il contatto entra nella lista Black Friday.
+    // Se il salvataggio non riesce, mandiamo comunque il codice con una email semplice.
+    if (!$saved || empty($_POST['consenso'])) {
         $h = ['From: Fabio e Flavia · Ritiri Itineranti <ciao@ritiriitineranti.it>', 'Reply-To: ciao@ritiriitineranti.it', 'MIME-Version: 1.0', 'Content-Type: text/plain; charset=UTF-8'];
         @mail($email, mb_encode_mimeheader('Il tuo codice Black Friday: ' . $CODE, 'UTF-8'), $txt, implode("\r\n", $h));
     }
