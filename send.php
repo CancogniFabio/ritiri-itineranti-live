@@ -87,8 +87,8 @@ function ri_avvisami($email, $dest) {
     ri_brevo_upsert($email, $attrs, ri_community_list() ?: false);
     // Email di conferma con la foto della destinazione (modello Brevo "Avvisami · Conferma iscrizione").
     $D = [
-        'nilo'       => ['La Via del Nilo', 'il Nilo', '/nilo', 'avvisami-nilo.jpg', 'Le colonne di un tempio egizio lungo il Nilo'],
-        'cappadocia' => ['Cappadocia', 'la Cappadocia', '/cappadocia', 'avvisami-cappadocia.jpg', 'Le rocce scolpite della Cappadocia'],
+        'nilo'       => ['La Via del Nilo', 'il Nilo', '/nilo', 'avvisami-abusimbel.jpg', 'Le statue colossali del tempio di Abu Simbel'],
+        'cappadocia' => ['Cappadocia', 'la Cappadocia', '/cappadocia', 'avvisami-mongolfiere.jpg', "Mongolfiere all'alba sopra le valli della Cappadocia"],
     ];
     $k = strtolower(trim($dest));
     if (isset($D[$k])) {
