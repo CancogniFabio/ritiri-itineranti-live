@@ -826,3 +826,14 @@ h1 .hero-eyebrow{font-family:var(--body);font-size:.8rem;display:block;margin:0 
 .partner-btn{white-space:nowrap}
 .partner-strip{padding:8px 0 0}
 @media (max-width:760px){.partner-box{grid-template-columns:1fr;gap:14px;padding:20px}.partner-mark{justify-self:start}}
+
+/* Modulo "Proponi" su telefono: a tutta larghezza e senza spazio vuoto sopra */
+@media (max-width:860px){
+  .propose-band{align-items:stretch;gap:18px}
+  .propose-band>div,.propose-form{flex:none;width:100%}
+  .propose-form input:not([type=checkbox]),.propose-form textarea,.propose-form .btn{width:100%;box-sizing:border-box}
+  .propose-form .btn{font:inherit;font-weight:700}
+  .propose-form .btn{justify-content:center}
+}
+.propose-form label:has(textarea){grid-column:1/-1}
+.propose-form .btn{font:inherit;font-weight:700;justify-content:center}
