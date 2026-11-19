@@ -14,12 +14,35 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Carica i file via FTP
+        id: ftp1
+        continue-on-error: true
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           protocol: ftps
+          timeout: 120000
+          server-dir: ./
+          exclude: |
+            **/.git*
+            **/.git*/**
+            .github/**
+            .cpanel.yml
+            README.md
+            CLAUDE.md
+      - name: Attende un minuto se il server non ha risposto
+        if: steps.ftp1.outcome == 'failure'
+        run: sleep 60
+      - name: Secondo tentativo se il primo è fallito
+        if: steps.ftp1.outcome == 'failure'
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          protocol: ftps
+          timeout: 120000
           server-dir: ./
           exclude: |
             **/.git*
