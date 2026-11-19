@@ -2,5 +2,6 @@ User-agent: *
 Allow: /
 Disallow: /send.php
 Disallow: /email/
+Disallow: /statistiche/
 
 Sitemap: https://ritiriitineranti.it/sitemap.xml
