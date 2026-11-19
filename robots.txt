@@ -1,8 +1,6 @@
 User-agent: *
 Allow: /
-Disallow: /area-facilitatori.html
 Disallow: /send.php
+Disallow: /email/
 
 Sitemap: https://ritiriitineranti.it/sitemap.xml
-User-agent: *
-Disallow: /email/
