@@ -23,7 +23,7 @@ RewriteRule ^([^.]+)$ $1.html [L]
 
 # Blocca i file del repository
 RedirectMatch 404 /\.git
-<FilesMatch "^(README\.md|SEO\.md|\.gitignore)$">
+<FilesMatch "^(README\.md|SEO\.md|CLAUDE\.md|\.gitignore|\.cpanel\.yml|lib-brevo\.php)$">
   Require all denied
 </FilesMatch>
 
@@ -47,3 +47,14 @@ RedirectMatch 404 /\.git
     Header set Cache-Control "no-cache, must-revalidate"
   </FilesMatch>
 </IfModule>
+
+# Intestazioni di sicurezza
+<IfModule mod_headers.c>
+  Header always set Strict-Transport-Security "max-age=31536000"
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set X-Frame-Options "SAMEORIGIN"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=()"
+  Header unset X-Powered-By
+</IfModule>
+ServerSignature Off

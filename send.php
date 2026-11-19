@@ -14,6 +14,30 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit;
 }
 
+// Solo dal nostro sito: blocca invii automatici da altri domini.
+$origin = $_SERVER['HTTP_ORIGIN'] ?? '';
+if ($origin !== '' && !preg_match('#^https://(www\.)?ritiriitineranti\.it$#', $origin)) {
+    http_response_code(403);
+    echo json_encode(['ok' => false, 'error' => 'Richiesta non valida.']);
+    exit;
+}
+
+// Limite di invii: al massimo 6 moduli ogni 10 minuti dallo stesso indirizzo IP, contro spam e abusi.
+// I contatori stanno fuori dal sito e contengono solo un'impronta dell'IP, mai l'IP in chiaro.
+$rlDir = dirname(__DIR__, 2) . '/.ritiri-ratelimit';
+if (!is_dir($rlDir)) @mkdir($rlDir, 0700, true);
+$rlFile = $rlDir . '/' . hash('sha256', ($_SERVER['REMOTE_ADDR'] ?? '') . date('Y-m-d')) . '.json';
+$hits = is_file($rlFile) ? (array)json_decode((string)@file_get_contents($rlFile), true) : [];
+$hits = array_values(array_filter($hits, fn($t) => $t > time() - 600));
+if (count($hits) >= 6) {
+    http_response_code(429);
+    echo json_encode(['ok' => false, 'error' => 'Troppi invii in poco tempo. Riprova tra qualche minuto o scrivici a ' . $TO . '.']);
+    exit;
+}
+$hits[] = time();
+@file_put_contents($rlFile, json_encode($hits), LOCK_EX);
+foreach ((array)@glob($rlDir . '/*.json') as $old) { if (is_file($old) && filemtime($old) < time() - 86400) @unlink($old); }
+
 // Honeypot: i visitatori veri non compilano mai questo campo
 if (!empty($_POST['website'])) {
     echo json_encode(['ok' => true]);
