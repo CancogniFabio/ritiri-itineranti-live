@@ -176,6 +176,7 @@ window.RIforms = (function () {
         form.hidden = true;
         var done = form.parentNode.querySelector('.form-done'); if (done) done.hidden = false;
         document.dispatchEvent(new CustomEvent('ri:sent', { detail: form }));
+        if (window._paq) _paq.push(['trackEvent', 'Modulo', 'Inviato', form.getAttribute('data-form') || 'Contatto']);
       })
       .catch(function () {
         if (btn) btn.disabled = false;
