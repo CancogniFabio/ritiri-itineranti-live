@@ -88,6 +88,18 @@ $headers = [
     'Content-Type: text/plain; charset=UTF-8',
 ];
 
+// Candidatura facilitatore: email con scheda PDF, conferma al candidato e lista Brevo dei facilitatori.
+if ($tipo === 'Candidatura facilitatore') {
+    require __DIR__ . '/lib/facilitatore.php';
+    if (ri_facilitatore($TO, $FROM, $email)) {
+        echo json_encode(['ok' => true]);
+    } else {
+        http_response_code(500);
+        echo json_encode(['ok' => false, 'error' => 'Invio non riuscito. Scrivici a ' . $TO . '.']);
+    }
+    exit;
+}
+
 if (mail($TO, $subject, $body, implode("\r\n", $headers))) {
     if (stripos($tipo, 'Black Friday') === 0) ri_black_friday($email, $FROM);
     if (stripos($tipo, 'Quiz') === 0) ri_quiz($email);

@@ -29,9 +29,9 @@ function ri_brevo_call($method, $path, $body = null) {
 }
 // La prima volta crea su Brevo i campi che usiamo, poi lascia un segnaposto accanto al file di configurazione.
 function ri_brevo_attrs() {
-    $flag = dirname(__DIR__, 2) . '/.ritiri-brevo-attrs-3';
+    $flag = dirname(__DIR__, 2) . '/.ritiri-brevo-attrs-4';
     if (is_file($flag)) return;
-    foreach (['PARTENZA' => 'text', 'CODICE_BF' => 'text', 'HA_PRENOTATO' => 'boolean', 'DATA_CHIAMATA' => 'date', 'NEWSLETTER' => 'boolean', 'PROFILO_QUIZ' => 'text', 'DESTINAZIONE_INTERESSE' => 'text'] as $n => $t) {
+    foreach (['PARTENZA' => 'text', 'CODICE_BF' => 'text', 'HA_PRENOTATO' => 'boolean', 'DATA_CHIAMATA' => 'date', 'NEWSLETTER' => 'boolean', 'PROFILO_QUIZ' => 'text', 'DESTINAZIONE_INTERESSE' => 'text', 'CITTA' => 'text', 'FOCUS' => 'text', 'INSTAGRAM' => 'text'] as $n => $t) {
         ri_brevo_call('POST', '/contacts/attributes/normal/' . $n, ['type' => $t]);
     }
     @file_put_contents($flag, date('c'));
