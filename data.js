@@ -174,7 +174,15 @@ window.RIforms = (function () {
       .then(function (r) { return r.json().then(function (j) { if (!r.ok || !j.ok) throw new Error(j.error || 'Errore'); return j; }); })
       .then(function () {
         form.hidden = true;
-        var done = form.parentNode.querySelector('.form-done'); if (done) done.hidden = false;
+        var done = form.parentNode.querySelector('.form-done');
+        if (done) {
+          done.hidden = false;
+          // porta il messaggio di conferma al centro dello schermo (i moduli lunghi lo lascerebbero fuori vista)
+          if (!form.closest('.modal')) {
+            done.setAttribute('tabindex', '-1');
+            setTimeout(function () { done.scrollIntoView({ behavior: 'smooth', block: 'center' }); done.focus({ preventScroll: true }); }, 30);
+          }
+        }
         document.dispatchEvent(new CustomEvent('ri:sent', { detail: form }));
         if (window._paq) _paq.push(['trackEvent', 'Modulo', 'Inviato', form.getAttribute('data-form') || 'Contatto']);
       })
