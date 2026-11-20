@@ -842,3 +842,15 @@ h1 .hero-eyebrow{font-family:var(--body);font-size:.8rem;display:block;margin:0 
 .apply-done{text-align:center;padding:48px 28px;max-width:620px;margin:24px auto;box-shadow:0 18px 40px rgba(35,32,59,.10);outline:none}
 .apply-done::before{content:"✓";display:flex;align-items:center;justify-content:center;width:64px;height:64px;margin:0 auto 18px;border-radius:50%;background:var(--terra);color:#fff;font-size:30px;font-weight:700}
 .apply-done p{font-size:1.1rem;max-width:30em;margin:0 auto}
+
+/* Facilitatori: Instagram e sito sotto la foto */
+.fac-links{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:6px;font-size:.92rem}
+.fac-links a{font-weight:600;color:var(--terra);text-decoration:none}
+.fac-links a:hover{text-decoration:underline}
+
+/* Facilitatori: Instagram e sito sotto la foto */
+.t-media{display:flex;flex-direction:column;gap:12px}
+.fac-links{display:flex;flex-direction:column;gap:6px;font-size:.98rem}
+.fac-links a{font-weight:700;color:var(--terra);text-decoration:none}
+.fac-links a:hover{text-decoration:underline}
+@media (max-width:760px){.fac-links{flex-direction:row;flex-wrap:wrap;gap:6px 16px}}

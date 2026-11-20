@@ -7,7 +7,7 @@ window.RI = {
     cappadocia: { name: "Valli di Pietra", country: "Turchia", page: "/cappadocia", img: "img/balloons.jpg", days: "7 giorni, 6 notti", price: null, color: "#9B3F67", level: 3, levelName: "Attivo" }
   },
   teachers: [
-    { id: "fabio", name: "Fabio", role: "Breathwork e regolazione del sistema nervoso", color: "#B6492B", initials: "F", base: "Lisbona", ig: "thebreathworkway",
+    { id: "fabio", name: "Fabio", role: "Breathwork e regolazione del sistema nervoso", color: "#B6492B", initials: "F", base: "Lisbona", ig: "thebreathworkway", site: "https://thebreathworkway.com",
       themes: ["Breathwork", "Lavoro somatico"],
       bio: "Attraverso il respiro accompagna persone e gruppi a ritrovare il contatto con il corpo, con le emozioni e con la propria direzione. Prima di diventare facilitatore di breathwork faceva l'ingegnere strutturale, e oggi lavora in modo trauma-aware sul sistema nervoso e sul corpo emotivo. Ha vissuto tra Hong Kong, l'Australia e il Portogallo, e nei viaggi porta il respiro, il lavoro somatico e, inevitabilmente, la parte più avventurosa." },
     { id: "flavia", name: "Flavia", role: "Yoga, meditazione e Deep Coaching", color: "#17676A", initials: "F", base: "Marocco e Italia", ig: "_the_good_space_",
