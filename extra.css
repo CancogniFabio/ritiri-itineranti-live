@@ -812,9 +812,25 @@ section.band-saffron{background:#F6DDA9}
 .quiz-teaser .btn{white-space:nowrap;flex-shrink:0}
 h1 .hero-eyebrow{font-family:var(--body);font-size:.8rem;display:block;margin:0 0 14px;line-height:1.4}
 /* Sezioni: titoli e card compaiono con una dissolvenza leggera */
-.fx-on .fx{opacity:0;transform:translateY(22px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.2,1)}
+.fx-on .fx{opacity:0;transition:opacity .8s ease,transform .9s cubic-bezier(.2,.7,.2,1)}
+.fx-on .fx-rise{transform:translateY(24px)}
+.fx-on .fx-left{transform:translateX(-26px)}
+.fx-on .fx-pop{transform:scale(.94)}
+.fx-on .fx-fade{transform:translateY(10px)}
 .fx-on .fx.in{opacity:1;transform:none}
-@media (prefers-reduced-motion:reduce){.fx-on .fx{opacity:1!important;transform:none!important;transition:none}}
+/* le foto delle card partono appena ingrandite e si assestano */
+.fx-on .trip.fx .thumb{transform:scale(1.07);transition:transform 1.4s cubic-bezier(.2,.7,.2,1)}
+.fx-on .trip.fx.in .thumb{transform:none}
+/* i viaggiatori dell'impegno fisico si colorano uno dopo l'altro */
+.fx-on .lvl-strip-list li.fx .dots i.on{background:#D9CBB0;transition:background .35s ease}
+.fx-on .lvl-strip-list li.fx.in .dots i.on{background:var(--terra)}
+.fx-on .lvl-strip-list li.fx.in .dots i:nth-child(1){transition-delay:.25s}
+.fx-on .lvl-strip-list li.fx.in .dots i:nth-child(2){transition-delay:.4s}
+.fx-on .lvl-strip-list li.fx.in .dots i:nth-child(3){transition-delay:.55s}
+.fx-on .lvl-strip-list li.fx.in .dots i:nth-child(4){transition-delay:.7s}
+.fx-on .lvl-strip-list li.fx.in .dots i:nth-child(5){transition-delay:.85s}
+.trip .thumb{will-change:auto}
+@media (prefers-reduced-motion:reduce){.fx-on .fx,.fx-on .fx .thumb{opacity:1!important;transform:none!important;transition:none}}
 
 /* Partner assicurazione (Heymondo) */
 .partner-box{display:grid;grid-template-columns:auto 1fr auto;gap:22px;align-items:center;margin-top:24px;background:var(--paper);border:1px dashed var(--line);border-radius:var(--r);padding:22px 26px}
@@ -854,3 +870,40 @@ h1 .hero-eyebrow{font-family:var(--body);font-size:.8rem;display:block;margin:0 
 .fac-links a{font-weight:700;color:var(--terra);text-decoration:none}
 .fac-links a:hover{text-decoration:underline}
 @media (max-width:760px){.fac-links{flex-direction:row;flex-wrap:wrap;gap:6px 16px}}
+
+/* ===== 21 nov: Per te se con la montagna ferma sotto, guida impegno compatta, foto community ===== */
+.perte.has-bg{position:relative;clip-path:inset(0);padding:110px 0 100px;margin:40px 0;color:var(--sand)}
+.perte-bg{position:fixed;inset:0;z-index:-1;background:url(img/kirghizistan-montagne.jpg) center/cover no-repeat}
+.perte-bg::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(35,32,59,.55),rgba(35,32,59,.35) 45%,rgba(35,32,59,.6))}
+@media (max-width:760px){.perte-bg{background-image:url(img/kirghizistan-montagne-m.jpg)}.perte.has-bg{padding:80px 0 70px}}
+.perte.has-bg .eyebrow{color:var(--saffron)}
+.perte.has-bg h2{color:var(--sand)}
+.perte.has-bg .perte-end{color:var(--sand)}
+.perte.has-bg .perte-end strong{color:#fff}
+.perte.has-bg .pt{color:var(--ink);background:rgba(251,244,233,.94);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}
+
+.intensita-mini{padding-top:0}
+.lvl-strip{background:var(--paper);border:1px solid var(--line);border-radius:24px;padding:22px 26px}
+.lvl-strip-title{margin:0 0 16px;font-size:1.02rem;color:var(--ink-soft)}
+.lvl-strip-title strong{color:var(--ink)}
+.lvl-strip-list{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
+.lvl-strip-list li{display:flex;flex-direction:column;gap:4px;padding-left:14px;border-left:2px solid var(--line)}
+.lvl-strip-list li:first-child{border-left:0;padding-left:0}
+.lvl-strip-list strong{font-size:.95rem}
+.lvl-strip-list li>span:last-child{font-size:.85rem;color:var(--ink-soft);line-height:1.35}
+@media (max-width:860px){
+  .lvl-strip{padding:18px}
+  .lvl-strip-list{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:12px;padding-bottom:6px;-webkit-overflow-scrolling:touch}
+  .lvl-strip-list li{flex:0 0 46%;scroll-snap-align:start;border-left:0;padding:12px;background:var(--sand);border-radius:14px}
+  .lvl-strip-list li:first-child{padding:12px}
+}
+
+.join.join-photo{position:relative;overflow:hidden;background:var(--ink) url(img/ri/gruppo-guide.jpg) center 60%/cover no-repeat;isolation:isolate}
+.join.join-photo::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(100deg,rgba(35,32,59,.88) 0%,rgba(35,32,59,.72) 55%,rgba(35,32,59,.55) 100%)}
+@media (max-width:860px){.join.join-photo::before{background:rgba(35,32,59,.8)}}
+
+.soon.soon-photo{position:relative;overflow:hidden;isolation:isolate;border-radius:24px;padding:28px 26px;background:var(--ink) url(img/esplorando-4x4.jpg) center 86%/cover no-repeat}
+.soon.soon-photo::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,rgba(35,32,59,.75),rgba(35,32,59,.35))}
+.soon.soon-photo .eyebrow{color:var(--saffron)}
+.soon.soon-photo .soon-list span{color:var(--sand);border-color:rgba(251,244,233,.7);background:rgba(35,32,59,.25)}
+.join-form .btn,.join-form button{font:inherit;font-weight:700}

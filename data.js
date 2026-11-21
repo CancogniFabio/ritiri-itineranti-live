@@ -229,18 +229,36 @@ window.RIforms = (function () {
   figs.forEach(function (f, i) { f.style.transitionDelay = (i % 3) * 90 + 'ms'; io.observe(f); });
 })();
 
-// Sezioni: titoli, testi e card entrano con una dissolvenza dal basso
+// Sezioni: ogni blocco entra con l'animazione che gli si addice, sempre lenta e morbida
 (function () {
   if (!('IntersectionObserver' in window)) return;
-  var sel = 'main section:not(.home-hero):not(.page-hero) .eyebrow, main section:not(.home-hero):not(.page-hero) h2, main section:not(.home-hero):not(.page-hero) .lead, .three > div, .pt, .dest-card, .dep-card, .how > div, .disc, .moment, .card, .faq details, .why > div, .first-story p, .quiz-teaser, .propose-band, .day, .bf-ingr > *, .bf-days > *';
-  var els = [].slice.call(document.querySelectorAll(sel)).filter(function (e) { return !e.closest('.gallery, .site-header, .home-hero, .page-hero, .modal, form, .scroll-row'); });
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  // [selettore, variante]: rise = sale dal basso, left = entra da sinistra, pop = si ingrandisce appena, fade = solo dissolvenza
+  var groups = [
+    ['main section:not(.home-hero):not(.page-hero) .eyebrow, main section:not(.home-hero):not(.page-hero) h2, main section:not(.home-hero):not(.page-hero) .lead, .perte-end, .more-link', 'rise'],
+    ['.mani-grid > div, .three > div, .how-step, .how > div, .dep-tile, .dep-card, .dest-card, .why > div, .card, .moment, .day', 'rise'],
+    ['.trip', 'rise'],
+    ['.pt', 'left'],
+    ['.disc, .soon-list span', 'pop'],
+    ['.lvl-strip, .lvl-strip-list li, .faq details, .first-story p, .quiz-teaser, .propose-band, .join, .partner-box, .soon, .bf-ingr > *, .bf-days > *', 'fade']
+  ];
+  var els = [];
+  groups.forEach(function (g) {
+    [].forEach.call(document.querySelectorAll(g[0]), function (e) {
+      if (e.classList.contains('fx') || e.closest('.gallery, .site-header, .home-hero, .page-hero, .modal, form')) return;
+      e.classList.add('fx', 'fx-' + g[1]); els.push(e);
+    });
+  });
   if (!els.length) return;
   document.documentElement.classList.add('fx-on');
   var io = new IntersectionObserver(function (es) {
     es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
   }, { threshold: 0.12, rootMargin: '0px 0px -6% 0px' });
   els.forEach(function (e) {
-    var sibs = e.parentNode ? [].indexOf.call(e.parentNode.children, e) : 0;
-    e.classList.add('fx'); e.style.transitionDelay = Math.min(sibs, 5) * 70 + 'ms'; io.observe(e);
+    var i = e.parentNode ? [].indexOf.call(e.parentNode.children, e) : 0;
+    var step = e.classList.contains('fx-left') ? 110 : e.classList.contains('fx-pop') ? 60 : 90;
+    e.style.transitionDelay = Math.min(i, 6) * step + 'ms';
+    e.addEventListener('transitionend', function () { e.style.transitionDelay = ''; }, { once: true });
+    io.observe(e);
   });
 })();
