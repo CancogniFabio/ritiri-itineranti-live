@@ -197,6 +197,31 @@ window.RIforms = (function () {
   return { reset: reset };
 })();
 
+/* Prefisso internazionale: accanto a ogni campo telefono compare la tendina dei paesi (Italia già scelta).
+   Il server unisce prefisso e numero e toglie un eventuale prefisso ripetuto nel campo. */
+(function () {
+  var P = [["Italia", "39"], ["Svizzera", "41"], ["San Marino", "378"], ["Portogallo", "351"], ["Spagna", "34"], ["Francia", "33"], ["Germania", "49"], ["Regno Unito", "44"], ["Austria", "43"], ["──────────", ""], ["Afghanistan", "93"], ["Albania", "355"], ["Algeria", "213"], ["Andorra", "376"], ["Angola", "244"], ["Arabia Saudita", "966"], ["Argentina", "54"], ["Armenia", "374"], ["Australia", "61"], ["Azerbaigian", "994"], ["Bahrein", "973"], ["Bangladesh", "880"], ["Belgio", "32"], ["Bielorussia", "375"], ["Bolivia", "591"], ["Bosnia ed Erzegovina", "387"], ["Brasile", "55"], ["Bulgaria", "359"], ["Cambogia", "855"], ["Camerun", "237"], ["Canada", "1"], ["Capo Verde", "238"], ["Cechia", "420"], ["Cile", "56"], ["Cina", "86"], ["Cipro", "357"], ["Colombia", "57"], ["Corea del Sud", "82"], ["Costa d'Avorio", "225"], ["Costa Rica", "506"], ["Croazia", "385"], ["Cuba", "53"], ["Danimarca", "45"], ["Ecuador", "593"], ["Egitto", "20"], ["El Salvador", "503"], ["Emirati Arabi Uniti", "971"], ["Estonia", "372"], ["Etiopia", "251"], ["Filippine", "63"], ["Finlandia", "358"], ["Georgia", "995"], ["Ghana", "233"], ["Giamaica", "1876"], ["Giappone", "81"], ["Giordania", "962"], ["Grecia", "30"], ["Guatemala", "502"], ["Honduras", "504"], ["Hong Kong", "852"], ["India", "91"], ["Indonesia", "62"], ["Iran", "98"], ["Iraq", "964"], ["Irlanda", "353"], ["Islanda", "354"], ["Israele", "972"], ["Kazakistan", "7"], ["Kenya", "254"], ["Kirghizistan", "996"], ["Kosovo", "383"], ["Kuwait", "965"], ["Lettonia", "371"], ["Libano", "961"], ["Libia", "218"], ["Liechtenstein", "423"], ["Lituania", "370"], ["Lussemburgo", "352"], ["Macedonia del Nord", "389"], ["Madagascar", "261"], ["Malaysia", "60"], ["Maldive", "960"], ["Malta", "356"], ["Marocco", "212"], ["Mauritius", "230"], ["Messico", "52"], ["Moldavia", "373"], ["Monaco", "377"], ["Mongolia", "976"], ["Montenegro", "382"], ["Mozambico", "258"], ["Namibia", "264"], ["Nepal", "977"], ["Nicaragua", "505"], ["Nigeria", "234"], ["Norvegia", "47"], ["Nuova Zelanda", "64"], ["Oman", "968"], ["Paesi Bassi", "31"], ["Pakistan", "92"], ["Panama", "507"], ["Paraguay", "595"], ["Perù", "51"], ["Polonia", "48"], ["Qatar", "974"], ["Repubblica Dominicana", "1809"], ["Romania", "40"], ["Russia", "7"], ["Senegal", "221"], ["Serbia", "381"], ["Singapore", "65"], ["Slovacchia", "421"], ["Slovenia", "386"], ["Sri Lanka", "94"], ["Stati Uniti", "1"], ["Sudafrica", "27"], ["Svezia", "46"], ["Tailandia", "66"], ["Taiwan", "886"], ["Tanzania", "255"], ["Tunisia", "216"], ["Turchia", "90"], ["Ucraina", "380"], ["Uganda", "256"], ["Ungheria", "36"], ["Uruguay", "598"], ["Uzbekistan", "998"], ["Venezuela", "58"], ["Vietnam", "84"]];
+  function build(input) {
+    if (input.dataset.prefix) return; input.dataset.prefix = '1';
+    var sel = document.createElement('select');
+    sel.name = 'prefisso'; sel.className = 'tel-prefix'; sel.setAttribute('aria-label', 'Prefisso internazionale');
+    P.forEach(function (p) {
+      var o = document.createElement('option');
+      if (!p[1]) { o.disabled = true; o.textContent = p[0]; }
+      else { o.value = p[1]; o.textContent = '+' + p[1] + ' ' + p[0]; }
+      sel.appendChild(o);
+    });
+    sel.value = '39';
+    var row = document.createElement('span'); row.className = 'tel-row';
+    input.parentNode.insertBefore(row, input);
+    row.appendChild(sel); row.appendChild(input);
+    input.placeholder = '333 123 4567';
+    input.removeAttribute('pattern');
+  }
+  function init() { document.querySelectorAll('input[type=tel][name=telefono]').forEach(build); }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
+})();
+
 /* Menu mobile */
 (function () { var b = document.querySelector('.menu-btn'), n = document.getElementById('nav'); if (!b) return; b.addEventListener('click', function () { var o = n.classList.toggle('open'); b.setAttribute('aria-expanded', o); }); n.addEventListener('click', function (e) { if (e.target.tagName === 'A') { n.classList.remove('open'); b.setAttribute('aria-expanded', false); } }); })();
 

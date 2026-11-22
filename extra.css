@@ -907,3 +907,9 @@ h1 .hero-eyebrow{font-family:var(--body);font-size:.8rem;display:block;margin:0 
 .soon.soon-photo .eyebrow{color:var(--saffron)}
 .soon.soon-photo .soon-list span{color:var(--sand);border-color:rgba(251,244,233,.7);background:rgba(35,32,59,.25)}
 .join-form .btn,.join-form button{font:inherit;font-weight:700}
+
+/* Prefisso internazionale accanto al telefono */
+.tel-row{display:flex;gap:8px;align-items:stretch;width:100%}
+.tel-row .tel-prefix{flex:0 0 8.2em;width:8.2em;min-width:0;padding-left:10px;padding-right:6px;text-overflow:ellipsis}
+.tel-row input[type=tel]{flex:1 1 auto;min-width:0}
+.join-form .tel-row .tel-prefix{padding:12px 8px;border-radius:12px;border:1px solid #4a466b;background:#2E2A4B;color:#fff;font:inherit}

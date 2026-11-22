@@ -58,6 +58,13 @@ if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
 }
 
 $tipo = clean($_POST['tipo'] ?? 'Contatto', 60);
+
+// Telefono: unisce il prefisso scelto nella tendina al numero e lo porta nel formato +39XXXXXXXXXX,
+// che è quello che Brevo accetta per WhatsApp. Da qui in poi tutto il codice usa il numero pulito.
+if (isset($_POST['telefono']) && trim((string)$_POST['telefono']) !== '') {
+    $_POST['telefono'] = ri_phone((string)($_POST['prefisso'] ?? '39'), (string)$_POST['telefono']);
+}
+unset($_POST['prefisso']);
 if (stripos($tipo, 'Black Friday') === 0 && time() > strtotime('2026-12-04 23:59:59 Europe/Rome')) {
     http_response_code(410);
     echo json_encode(['ok' => false, 'error' => 'L\'offerta Black Friday si è chiusa il 4 dicembre. Scrivici a ciao@ritiriitineranti.it.']);
@@ -180,4 +187,22 @@ function ri_black_friday($email, $from) {
         @mail($email, mb_encode_mimeheader('Il tuo codice Black Friday: ' . $CODE, 'UTF-8'), $txt, implode("\r\n", $h));
     }
     // Il consenso (obbligatorio nel modulo) fa entrare il contatto nella lista Black Friday e nella community.
+}
+
+
+// Normalizza un numero di telefono: "+39" e "347 123 4567" diventano "+393471234567".
+// Se il numero contiene già un prefisso (+, 00 o lo stesso prefisso della tendina) non lo ripete.
+function ri_phone($prefix, $raw) {
+    $prefix = preg_replace('/\D/', '', $prefix) ?: '39';
+    $raw = trim($raw);
+    $hasPlus = strpos($raw, '+') === 0;
+    $d = preg_replace('/\D/', '', $raw);
+    if ($d === '') return '';
+    if ($hasPlus) return '+' . $d;
+    if (strpos($d, '00') === 0) return '+' . substr($d, 2);
+    // Prefisso già scritto nel numero (es. 393471234567 con Italia scelta): lo teniamo una volta sola.
+    if (strpos($d, $prefix) === 0 && strlen($d) >= strlen($prefix) + 9) return '+' . $d;
+    // Fuori dall'Italia lo 0 iniziale è il prefisso nazionale e va tolto (es. Regno Unito 07... diventa +447...).
+    if ($prefix !== '39' && $prefix !== '378' && strpos($d, '0') === 0) $d = substr($d, 1);
+    return '+' . $prefix . $d;
 }

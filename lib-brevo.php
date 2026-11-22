@@ -22,16 +22,16 @@ function ri_brevo_call($method, $path, $body = null) {
         CURLOPT_HTTPHEADER => ['api-key: ' . $c['brevo_key'], 'Content-Type: application/json', 'Accept: application/json'],
     ]);
     if ($body !== null) curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($body));
-    curl_exec($ch);
+    $GLOBALS['ri_brevo_last'] = (string)curl_exec($ch);
     $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
     curl_close($ch);
     return $code;
 }
 // La prima volta crea su Brevo i campi che usiamo, poi lascia un segnaposto accanto al file di configurazione.
 function ri_brevo_attrs() {
-    $flag = dirname(__DIR__, 2) . '/.ritiri-brevo-attrs-4';
+    $flag = dirname(__DIR__, 2) . '/.ritiri-brevo-attrs-5';
     if (is_file($flag)) return;
-    foreach (['PARTENZA' => 'text', 'CODICE_BF' => 'text', 'HA_PRENOTATO' => 'boolean', 'DATA_CHIAMATA' => 'date', 'NEWSLETTER' => 'boolean', 'PROFILO_QUIZ' => 'text', 'DESTINAZIONE_INTERESSE' => 'text', 'CITTA' => 'text', 'FOCUS' => 'text', 'INSTAGRAM' => 'text'] as $n => $t) {
+    foreach (['PARTENZA' => 'text', 'CODICE_BF' => 'text', 'HA_PRENOTATO' => 'boolean', 'DATA_CHIAMATA' => 'date', 'NEWSLETTER' => 'boolean', 'PROFILO_QUIZ' => 'text', 'DESTINAZIONE_INTERESSE' => 'text', 'CITTA' => 'text', 'FOCUS' => 'text', 'INSTAGRAM' => 'text', 'TELEFONO' => 'text'] as $n => $t) {
         ri_brevo_call('POST', '/contacts/attributes/normal/' . $n, ['type' => $t]);
     }
     @file_put_contents($flag, date('c'));
@@ -46,7 +46,29 @@ function ri_brevo_upsert($email, $attrs, $listId = null) {
     $ids = array_values(array_filter(array_map('intval', is_array($list) ? $list : [$list])));
     if ($ids) $body['listIds'] = $ids;
     $code = ri_brevo_call('POST', '/contacts', $body);
-    return $code >= 200 && $code < 300;
+    if ($code >= 200 && $code < 300) return true;
+    $first = $GLOBALS['ri_brevo_last'] ?? '';
+    // Brevo rifiuta l'intero contatto se il numero WhatsApp non gli piace (formato sbagliato o già usato da
+    // un altro contatto). In quel caso salviamo comunque il contatto, con il numero in un campo di testo.
+    $a = (array)$attrs;
+    if (!empty($a['WHATSAPP'])) {
+        $a['TELEFONO'] = $a['WHATSAPP'];
+        unset($a['WHATSAPP']);
+        $body['attributes'] = (object)$a;
+        $code = ri_brevo_call('POST', '/contacts', $body);
+        $ok = $code >= 200 && $code < 300;
+        ri_brevo_alert($email, $ok ? 'Contatto salvato senza WhatsApp: Brevo non ha accettato il numero ' . $a['TELEFONO'] . '. Il numero è nel campo TELEFONO.' : 'Contatto NON salvato su Brevo.', $first . ($ok ? '' : "\n" . ($GLOBALS['ri_brevo_last'] ?? '')));
+        return $ok;
+    }
+    ri_brevo_alert($email, 'Contatto NON salvato su Brevo.', $first);
+    return false;
+}
+// Avvisa via email e lascia una riga di log fuori dal sito quando Brevo rifiuta un contatto.
+function ri_brevo_alert($email, $what, $detail) {
+    $line = date('c') . ' | ' . $email . ' | ' . $what . ' | ' . str_replace(["\r", "\n"], ' ', mb_substr((string)$detail, 0, 500)) . "\n";
+    @file_put_contents(dirname(__DIR__, 2) . '/ritiri-brevo-errori.log', $line, FILE_APPEND | LOCK_EX);
+    $h = ['From: Sito Ritiri Itineranti <no-reply@ritiriitineranti.it>', 'MIME-Version: 1.0', 'Content-Type: text/plain; charset=UTF-8'];
+    @mail('ciao@ritiriitineranti.it', mb_encode_mimeheader('Brevo: controlla il contatto ' . $email, 'UTF-8'), $what . "\n\nEmail: " . $email . "\nRisposta di Brevo: " . $detail . "\n", implode("\r\n", $h));
 }
 // Invia un modello transazionale di Brevo. Restituisce true se Brevo l'ha accettato.
 function ri_brevo_template($templateId, $email, $name, $params) {
