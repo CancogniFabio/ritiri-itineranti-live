@@ -79,6 +79,6 @@ function ri_prenotazione($email, $TO) {
     );
     ri_send_html($email, 'Il tuo posto per il ' . $t['nome'], $html, $TO);
     return ['bank' => empty($c['iban']) ? null : ['iban' => $c['iban'], 'intestatario' => $c['intestatario'] ?? '', 'importo' => $t['acconto'], 'causale' => $causale, 'bic' => $c['bic'] ?? ''], 'link' => $c['link_pagamento'] ?? ''];
-    // Chi dichiara di aver pagato entra nella lista dei partecipanti (da verificare con l'estratto conto).
-    if ($t['lista_prenotati']) ri_brevo_upsert($email, ['FIRSTNAME' => $n, 'LASTNAME' => $cg, 'DESTINAZIONE_INTERESSE' => $t['nome'] . ' ' . $partenza], $t['lista_prenotati']);
+    // Chi preme "Ho fatto il bonifico" entra nella lista della brochure con ACCONTO_PAGATO = la partenza: su Brevo un segmento li raccoglie.
+    ri_brevo_upsert($email, ['FIRSTNAME' => $n, 'LASTNAME' => $cg, 'ACCONTO_PAGATO' => $partenza], $t['lista_prenotati'] ?: ($t['lista_brochure'] ?: false));
 }
