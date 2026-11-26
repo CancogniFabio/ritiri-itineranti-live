@@ -112,7 +112,7 @@ if (mail($TO, $subject, $body, implode("\r\n", $headers))) {
     if (stripos($tipo, 'Quiz') === 0) ri_quiz($email);
     if ($tipo === 'Iscrizione community' && !empty($_POST['consenso_email'])) ri_brevo_upsert($email, ['FIRSTNAME' => clean($_POST['nome'] ?? '', 60), 'LASTNAME' => clean($_POST['cognome'] ?? '', 60), 'WHATSAPP' => clean($_POST['telefono'] ?? '', 30), 'NEWSLETTER' => true], ri_community_list() ?: false);
     if (stripos($tipo, 'Brochure') === 0) { require_once __DIR__ . '/lib/viaggio.php'; ri_brochure($email, $TO); }
-    if (stripos($tipo, 'Prenotazione') === 0) { require_once __DIR__ . '/lib/viaggio.php'; ri_prenotazione($email, $TO); }
+    if (stripos($tipo, 'Prenotazione') === 0) { require_once __DIR__ . '/lib/viaggio.php'; echo json_encode(['ok' => true] + (array)ri_prenotazione($email, $TO)); exit; }
     if (stripos($tipo, 'Avvisami') === 0) ri_avvisami($email, trim(substr($tipo, strpos($tipo, '·') !== false ? strpos($tipo, '·') + 2 : 8)));
     echo json_encode(['ok' => true]);
 } else {

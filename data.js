@@ -191,7 +191,8 @@ window.RIforms = (function () {
     var old = form.querySelector('.form-error'); if (old) old.remove();
     fetch('send.php', { method: 'POST', body: collect(form), headers: { 'Accept': 'application/json' } })
       .then(function (r) { return r.json().then(function (j) { if (!r.ok || !j.ok) throw new Error(j.error || 'Errore'); return j; }); })
-      .then(function () {
+      .then(function (j) {
+        form._resp = j;
         form.hidden = true;
         var done = form.parentNode.querySelector('.form-done');
         if (done) {
