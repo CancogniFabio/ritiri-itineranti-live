@@ -113,6 +113,15 @@ window.RI = {
     if (BF && dest === 'marocco') tripDeps.insertAdjacentHTML('beforebegin', '<p class="bf-trip-note"><strong>Black Friday:</strong> fino al 4 dicembre il Desert Way costa 1.100 € invece di 1.400 €. Lasci i tuoi dati e ricevi il codice e la guida completa del viaggio, poi prenoti una consulenza gratuita oppure blocchi direttamente il posto. <a href="/black-friday#sconto">Ottieni lo sconto →</a></p>');
   }
 
+  // ---------- finestre generiche: data-open="id" ----------
+  document.addEventListener('click', function (e) {
+    var o = e.target.closest('[data-open]');
+    if (o) { var m = document.getElementById(o.getAttribute('data-open')); if (m) { e.preventDefault(); m.hidden = false; var i = m.querySelector('input:not([type=hidden]):not([tabindex])'); if (i) i.focus(); } }
+    var mm = e.target.closest('.modal');
+    if (mm && mm.id !== 'book-modal' && mm.id !== 'brochure-modal' && (e.target === mm || e.target.closest('[data-close]'))) mm.hidden = true;
+  });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') [].forEach.call(document.querySelectorAll('.modal'), function (m) { m.hidden = true; }); });
+
   // ---------- brochure modal ----------
   var bmodal = document.getElementById('brochure-modal');
   if (bmodal) {
