@@ -9,7 +9,7 @@ function ri_trips() {
         'marocco' => [
             'nome' => 'Desert Way · Marocco',
             'brochure' => $c['brochure_marocco'] ?? 'https://drive.google.com/file/d/14xNDLKVn2aP5OQD7rlzulQ_tZx0IkR1J/view',
-            'lista_brochure' => (int)($c['lista_brochure_marocco'] ?? 0),
+            'lista_brochure' => (int)($c['lista_brochure_marocco'] ?? 12),
             'acconto' => 300,
         ],
     ];
