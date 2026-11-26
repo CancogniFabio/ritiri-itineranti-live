@@ -15,8 +15,8 @@ window.RI = {
       bio: "Insegna yoga e meditazione ed è Deep Coach, e il suo talento è creare spazi in cui il sistema nervoso si sente al sicuro e ognuno torna ad ascoltare la propria saggezza interiore. Con il progetto The Good Space unisce le persone in modo autentico e vitale. Ha vissuto tra gli Stati Uniti, la Spagna e il Marocco, e nei viaggi guida la pratica del mattino e i cerchi di condivisione." }
   ],
   departures: [
-    { id: "ma-apr27", period: "Aprile 2027", dest: "marocco", sort: 202704, date: "21-27 aprile 2027", start: "2027-04-21", end: "2027-04-27", status: "open", teachers: ["fabio", "flavia"] },
-    { id: "ma-ott27", period: "Ottobre 2027", dest: "marocco", sort: 202710, date: "21-27 ottobre 2027", start: "2027-10-21", end: "2027-10-27", status: "open", img: "https://innertravels.world/wp-content/uploads/2026/07/DSC2994-1536x1024.jpg", teachers: ["fabio", "flavia"] },
+    { id: "ma-apr27", period: "Aprile 2027", dest: "marocco", sort: 202704, date: "21-27 aprile 2027", start: "2027-04-21", end: "2027-04-27", status: "open", seats: 12, teachers: ["fabio", "flavia"] },
+    { id: "ma-ott27", period: "Ottobre 2027", dest: "marocco", sort: 202710, date: "21-27 ottobre 2027", start: "2027-10-21", end: "2027-10-27", status: "open", img: "https://innertravels.world/wp-content/uploads/2026/07/DSC2994-1536x1024.jpg", seats: 12, teachers: ["fabio", "flavia"] },
     { id: "ni-nov27", period: "Novembre 2027", dest: "nilo", sort: 202711, date: "Novembre 2027", status: "tba", teachers: ["fabio", "flavia"] },
     { id: "ni-feb28", period: "Febbraio 2028", dest: "nilo", sort: 202802, date: "Febbraio 2028", status: "tba", img: "img/karnak1.jpg", teachers: ["fabio", "flavia"] },
     { id: "ca-2028", period: "2028", dest: "cappadocia", sort: 202809, date: "Nel 2028", status: "soon", teachers: ["fabio", "flavia"] }
@@ -106,7 +106,7 @@ window.RI = {
     tripDeps.innerHTML = D.departures.filter(function (d) { return d.dest === dest; }).sort(function (a, b) { return a.sort - b.sort; }).map(function (d) {
       var open = d.status === 'open';
       return '<article class="dep-tile"><span class="dep-date">' + d.date + '</span>' + guides(d, 44) +
-        '<span class="dep-theme">' + ds.days + '</span>' + status(d) +
+        '<span class="dep-theme">' + ds.days + '</span>' + status(d) + (d.seats && open ? '<span class="dep-seats-note">Solo ' + d.seats + ' posti</span>' : '') +
         '<div class="dep-foot"><span class="dep-price">' + (bfOn(d) ? BFPRICE : price(ds)) + '</span></div>' +
         (open ? '<a class="btn accent" href="/prenota?p=' + d.id + '">Prenota ora</a>' : '<button class="btn accent" type="button" data-book="' + d.id + '">Avvisami quando apre</button>') + '</article>';
     }).join('');
@@ -307,3 +307,16 @@ window.RIforms = (function () {
     io.observe(e);
   });
 })();
+
+// Statistiche: clic sui pulsanti che portano alla vendita (Matomo, senza cookie)
+document.addEventListener('click', function (e) {
+  if (!window._paq) return;
+  var a = e.target.closest('a, button'); if (!a) return;
+  var h = a.getAttribute('href') || '', label = null;
+  if (a.hasAttribute('data-brochure')) label = 'Brochure';
+  else if (h.indexOf('/prenota') === 0) label = 'Prenota ora (partenza)';
+  else if (h === '#date' && /prenota/i.test(a.textContent)) label = 'Prenota ora (scorri alle partenze)';
+  else if (h.indexOf('wa.me') > -1) label = 'WhatsApp';
+  else if (h.indexOf('cal.com') > -1) label = 'Chiamata Cal.com';
+  if (label) _paq.push(['trackEvent', 'CTA', label, location.pathname]);
+});
