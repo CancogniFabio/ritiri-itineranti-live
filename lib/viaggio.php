@@ -68,9 +68,10 @@ function ri_prenotazione($email, $TO) {
     }
     $html = ri_mail_box(
         ri_p('Ciao ' . htmlspecialchars($n ?: 'viaggiatore') . ',')
-        . ri_p('che bello, il tuo posto per il <strong>' . htmlspecialchars($t['nome']) . '</strong> (' . htmlspecialchars($partenza) . ') è prenotato. Per confermarlo manca solo l\'acconto:')
+        . ri_p('grazie, il tuo posto per il <strong>' . htmlspecialchars($t['nome']) . '</strong> (' . htmlspecialchars($partenza) . ') è prenotato. Appena vediamo arrivare l\'acconto sul conto ti scriviamo per confermarlo.')
+        . ri_p('Se non hai ancora fatto il bonifico, ecco i dati:')
         . $bank
-        . ri_p('Appena lo riceviamo ti scriviamo per confermare il posto. Ecco poi come prosegue:')
+        . ri_p('Ecco poi come prosegue:')
         . '<ol style="color:#23203B;font-size:15px;line-height:1.6;padding-left:20px;margin:0 0 14px"><li><strong>Conosciamoci</strong>: se ti va, prenoti una chiamata di benvenuto con noi.</li><li><strong>Seconda rata</strong>: due mesi prima della partenza, il 50% di quello che resta.</li><li><strong>Saldo e chiamata di gruppo</strong>: un mese prima, insieme alla chiamata in cui rispondiamo a tutte le domande.</li><li><strong>Si parte.</strong></li></ol>'
         . ri_btn('https://cal.com/ritiri-itineranti/blackfriday?name=' . rawurlencode(trim($n . ' ' . $cg)) . '&email=' . rawurlencode($email), 'Prenota la chiamata di benvenuto')
         . ri_p('Per qualsiasi domanda rispondi pure a questa email.')

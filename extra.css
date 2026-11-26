@@ -973,3 +973,14 @@ button.btn{font-family:inherit}
 .pay-row .copy{margin:0!important;align-self:center;width:auto!important}
 .pay-row strong{word-break:normal;overflow-wrap:anywhere}
 .book-grid.paid .bk-form-box{background:none;border:0;padding:0}
+.pay-card{background:var(--paper);border:1px solid var(--line);border-radius:24px;padding:26px;margin-bottom:22px}
+.pay-card h2{font-size:clamp(1.5rem,3vw,2rem);margin:.15em 0 .3em}
+.pay-card>p{color:var(--ink-soft);margin:0 0 14px}
+.pay-card form label{display:block;font-weight:600;font-size:.92rem;margin-bottom:12px}
+.pay-card form input:not([type=checkbox]),.pay-card form select{display:block;width:100%;box-sizing:border-box;margin-top:6px;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:#fff;font:inherit;font-weight:400}
+.pay-card .row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.pay-card .check{display:flex;gap:10px;align-items:flex-start;font-weight:400}
+.pay-card form .btn{width:100%;justify-content:center;font:inherit;font-weight:700}
+.book-wrap .bk-steps{margin-top:30px}
+@media (max-width:860px){.pay-card{padding:20px}.pay-card .row2{grid-template-columns:1fr;gap:0}}
+@media (max-width:860px){.pay-grid{grid-template-columns:minmax(0,1fr)}.pay-qr{display:none!important}}

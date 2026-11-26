@@ -20,8 +20,8 @@
 <meta name="theme-color" content="#B6492B">
 <link rel="icon" href="favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="stylesheet" href="fonts.css">
-<link rel="stylesheet" href="style.css?v=live29">
-<link rel="stylesheet" href="extra.css?v=live29">
+<link rel="stylesheet" href="style.css?v=live30">
+<link rel="stylesheet" href="extra.css?v=live30">
 <script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "TravelAgency", "@id": "https://ritiriitineranti.it/#org", "name": "Ritiri Itineranti", "url": "https://ritiriitineranti.it/", "logo": "https://ritiriitineranti.it/img/og-logo.png", "email": "ciao@ritiriitineranti.it", "areaServed": "IT", "inLanguage": "it-IT", "description": "Ritiri di yoga, breathwork e meditazione in viaggio, in piccoli gruppi.", "founder": [{"@type": "Person", "name": "Fabio Cancogni"}, {"@type": "Person", "name": "Flavia"}], "sameAs": ["https://www.instagram.com/innertravels/"]}]}</script>
 <!-- Statistiche Matomo sul nostro server: senza cookie, IP anonimizzato -->
 <script>var _paq=window._paq=window._paq||[];_paq.push(['disableCookies']);_paq.push(['trackPageView']);_paq.push(['enableLinkTracking']);(function(){var u='/statistiche/';_paq.push(['setTrackerUrl',u+'matomo.php']);_paq.push(['setSiteId','1']);var g=document.createElement('script');g.async=true;g.src=u+'matomo.js';document.head.appendChild(g);})();</script>
@@ -39,33 +39,39 @@
 <div class="bk-summary" id="bk-summary"></div>
 </div></section>
 
-<section style="padding-top:0"><div class="wrap book-wrap book-grid">
-<div class="bk-steps">
-<h2>Come funziona</h2>
-<ol class="steps-list">
-<li><span class="n">1</span><div><strong>Blocca il tuo posto</strong><p>Compili il modulo e trovi subito qui i dati per pagare l'acconto di 300 €, già pronti da copiare nella tua app della banca. Te li mandiamo anche per email. Quando riceviamo l'acconto, il posto è tuo.</p></div></li>
-<li><span class="n">2</span><div><strong>Conosciamoci</strong><p>Se ti va, prenoti una chiamata di benvenuto con noi per raccontarci di te e farci tutte le domande che vuoi. È facoltativa.</p></div></li>
-<li><span class="n">3</span><div><strong>Seconda rata</strong><p>Due mesi prima della partenza versi il 50% di quello che resta della quota.</p></div></li>
-<li><span class="n">4</span><div><strong>Saldo e chiamata di gruppo</strong><p>Un mese prima si salda la quota e ci troviamo tutti online, per conoscerci e rispondere alle ultime domande su zaino, voli e programma.</p></div></li>
-<li><span class="n">5</span><div><strong>Si parte</strong><p>Ci vediamo a Marrakech.</p></div></li>
-</ol>
-<p class="note">Se il gruppo non dovesse raggiungere il numero minimo di iscritti ti proponiamo un'altra data oppure ti restituiamo tutto quello che hai versato. Trovi tutte le condizioni nei <a href="/termini" target="_blank">Termini e condizioni</a>.</p>
+<section style="padding-top:0"><div class="wrap book-wrap">
+<div class="pay-card" id="pay-card">
+<span class="eyebrow">Passo 1</span><h2>Paga l'acconto di 300 €</h2>
+<p>Fai un bonifico dalla tua app della banca con questi dati. Nella causale scrivi il viaggio, la data e il tuo nome e cognome.</p>
+<div class="pay-grid"><div class="pay-rows" id="pay-rows"><p class="note">Sto caricando i dati per il bonifico…</p></div>
+<div class="pay-qr" id="pay-qr" hidden><div id="qr"></div><small>Inquadra con l'app della tua banca: il bonifico è già compilato</small></div></div>
+<div id="pay-link"></div>
 </div>
 
-<div class="bk-form-box">
+<div class="pay-card">
+<span class="eyebrow">Passo 2</span><h2>Avvisaci che hai pagato</h2>
+<p>Così ti riconosciamo subito e, appena vediamo il bonifico, ti confermiamo il posto.</p>
 <form data-form="Prenotazione" id="bk-form"><input type="hidden" name="tipo" value="Prenotazione"><input type="hidden" name="viaggio" value="marocco"><input type="hidden" name="partenza" value="">
 <label class="hp" aria-hidden="true">Sito web<input type="text" name="website" tabindex="-1" autocomplete="off"></label>
-<h3>I tuoi dati</h3>
 <label>Partenza<select name="partenza_sel" id="bk-dep" required></select></label>
 <div class="row2"><label>Nome<input type="text" name="nome" required autocomplete="given-name"></label><label>Cognome<input type="text" name="cognome" required autocomplete="family-name"></label></div>
 <label>Email<input type="email" name="email" required autocomplete="email"></label>
-<label>Telefono<input type="tel" name="telefono" required autocomplete="tel" placeholder="+39 ..."></label>
-<label>Vuoi dirci qualcosa? (facoltativo)<textarea name="messaggio" rows="3" placeholder="Allergie, domande, se parti con qualcuno..."></textarea></label>
 <label class="check check-small"><input type="checkbox" name="termini" value="Sì" required> <span>Ho letto i <a href="/termini" target="_blank">Termini e condizioni</a> e l'<a href="/privacy" target="_blank">informativa privacy</a>.</span></label>
-<button class="btn accent" type="submit">Prenota e paga l'acconto</button>
-<p class="bk-alt">Preferisci parlarne prima? <a href="https://cal.com/ritiri-itineranti/blackfriday" target="_blank" rel="noopener">Prenota una chiamata gratuita</a>.</p>
+<button class="btn accent" type="submit">Ho fatto il bonifico</button>
+<p class="bk-alt">Preferisci parlarne prima di pagare? <a href="https://cal.com/ritiri-itineranti/blackfriday" target="_blank" rel="noopener">Prenota una chiamata gratuita</a>.</p>
 </form>
-<div class="form-done pay-done" hidden><div id="pay-box"><p><strong>Il tuo posto è prenotato!</strong> Ti abbiamo mandato per email i dati per il bonifico dell'acconto.</p></div></div></div>
+<div class="form-done apply-done" hidden><p><strong>Grazie, il tuo posto è prenotato!</strong> Appena vediamo il bonifico ti scriviamo per confermarlo. Ti abbiamo mandato un'email con tutti i prossimi passi.</p><p style="margin-top:14px"><a class="btn accent" id="cal-link" href="https://cal.com/ritiri-itineranti/blackfriday" target="_blank" rel="noopener">Prenota la chiamata di benvenuto</a></p></div>
+</div>
+
+<div class="bk-steps">
+<h2>E poi?</h2>
+<ol class="steps-list">
+<li><span class="n">1</span><div><strong>Conosciamoci</strong><p>Se ti va, prenoti una chiamata di benvenuto con noi per raccontarci di te e farci tutte le domande che vuoi.</p></div></li>
+<li><span class="n">2</span><div><strong>Seconda rata</strong><p>Due mesi prima della partenza versi il 50% di quello che resta della quota.</p></div></li>
+<li><span class="n">3</span><div><strong>Saldo e chiamata di gruppo</strong><p>Un mese prima si salda la quota e ci troviamo tutti online, per conoscerci e rispondere alle ultime domande su zaino, voli e programma.</p></div></li>
+<li><span class="n">4</span><div><strong>Si parte</strong><p>Ci vediamo a Marrakech.</p></div></li>
+</ol>
+<p class="note">Se il gruppo non dovesse raggiungere il numero minimo di iscritti ti proponiamo un'altra data oppure ti restituiamo tutto quello che hai versato. Trovi tutte le condizioni nei <a href="/termini" target="_blank">Termini e condizioni</a>.</p>
 </div>
 </div></section>
 </main>
@@ -75,37 +81,45 @@
 <div><h4>Viaggi</h4><ul><li><a href="/marocco">Marocco · Desert Way</a></li><li><a href="/nilo">Egitto · La Via del Nilo</a></li><li><a href="/cappadocia">Turchia · Valli di Pietra (2028)</a></li><li><a href="/#partenze">Tutte le partenze</a></li><li><a href="/black-friday">Offerta Black Friday</a></li><li><a href="/quiz">Il quiz: che viaggiatore sei?</a></li></ul></div>
 <div><h4>Ritiri Itineranti</h4><ul><li><a href="/chi-siamo">Chi siamo</a></li><li><a href="/network">I facilitatori</a></li><li><a href="/diventa-facilitatore">Diventa facilitatore</a></li><li><a href="/area-facilitatori">Area facilitatori</a></li><li><a href="mailto:ciao@ritiriitineranti.it">ciao@ritiriitineranti.it</a></li><li><a href="https://www.instagram.com/innertravels/" rel="noopener" target="_blank">Instagram</a></li></ul></div>
 </div><p class="copy">© 2026 Ritiri Itineranti · Fabio Cancogni, P.IVA 12824440015 · Flavia Ventura, P.IVA 12857230010 · <a href="/privacy">Privacy</a> · <a href="/cookie">Cookie</a> · <a href="/termini">Termini e condizioni</a></p></div></footer>
-<script src="data.js?v=live29"></script>
+<script src="data.js?v=live30"></script>
 <script src="qr.min.js?v=1"></script>
 <script>
-document.addEventListener('ri:sent', function (e) {
-  var f = e.detail; if (!f || f.id !== 'bk-form') return;
-  var j = f._resp || {}, b = j.bank, box = document.getElementById('pay-box');
-  var cal = 'https://cal.com/ritiri-itineranti/blackfriday?name=' + encodeURIComponent((f.nome.value + ' ' + f.cognome.value).trim()) + '&email=' + encodeURIComponent(f.email.value);
+(function () {
+  var f = document.getElementById('bk-form'), sel = document.getElementById('bk-dep'), bank = null;
   var esc = function (t) { return String(t).replace(/[&<>"]/g, function (c) { return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); };
-  var html = '<span class="eyebrow">Ultimo passo</span><h3>Paga l\'acconto e il posto è tuo</h3>';
-  if (b) {
+  // dati già lasciati sul sito (es. per la brochure): non serve riscriverli
+  try { var me = JSON.parse(localStorage.getItem('ri_me') || '{}'); ['nome', 'cognome', 'email'].forEach(function (k) { if (me[k] && f[k] && !f[k].value) f[k].value = me[k]; }); } catch (x) {}
+  function causale() {
+    var who = (f.nome.value + ' ' + f.cognome.value).trim();
+    return 'Acconto Desert Way ' + (f.partenza.value || '') + ' - ' + (who || 'nome e cognome');
+  }
+  function paint() {
+    if (!bank) return;
     var row = function (l, v, copy) { return '<div class="pay-row"><span>' + l + '</span><strong>' + esc(v) + '</strong>' + (copy ? '<button type="button" class="copy" data-copy="' + esc(v) + '">Copia</button>' : '') + '</div>'; };
-    html += '<p>Fai un bonifico con questi dati dalla tua app della banca. Ti abbiamo mandato tutto anche per email.</p>' +
-      '<div class="pay-grid"><div class="pay-rows">' + row('Importo', b.importo + ' €', false) + row('Intestatario', b.intestatario, true) + row('IBAN', b.iban, true) + row('Causale', b.causale, true) + '</div>' +
-      '<div class="pay-qr"><div id="qr"></div><small>Inquadra con l\'app della tua banca per avere il bonifico già compilato</small></div></div>';
-    if (j.link) html += '<p class="pay-or">oppure</p><a class="btn accent pay-link" href="' + esc(j.link) + '" target="_blank" rel="noopener">Paga con carta o Apple Pay</a>';
-  } else {
-    html += '<p>Ti abbiamo appena mandato un\'email: entro 24 ore ricevi i dati per il bonifico dell\'acconto di 300 €.</p>';
+    document.getElementById('pay-rows').innerHTML = row('Importo', '300 €', false) + row('Intestatario', bank.intestatario, true) + row('IBAN', bank.iban, true) + row('Causale', causale(), true);
+    if (window.qrcode) {
+      var epc = ['BCD', '002', '1', 'SCT', bank.bic || '', bank.intestatario.slice(0, 70), bank.iban.replace(/\s/g, ''), 'EUR300.00', '', '', causale().slice(0, 140)].join('\n');
+      try { var q = qrcode(0, 'M'); q.addData(unescape(encodeURIComponent(epc))); q.make(); document.getElementById('qr').innerHTML = q.createSvgTag({ cellSize: 4, margin: 2, scalable: true }); document.getElementById('pay-qr').hidden = false; } catch (x) {}
+    }
   }
-  html += '<div class="pay-next"><p>Quando riceviamo l\'acconto ti scriviamo per confermare il posto. Intanto, se ti va, conosciamoci.</p><a class="btn ghost-dark" href="' + cal + '" target="_blank" rel="noopener">Prenota la chiamata di benvenuto</a></div>';
-  box.innerHTML = html; document.querySelector('.book-grid').classList.add('paid');
-  if (b && window.qrcode) {
-    var epc = ['BCD', '002', '1', 'SCT', b.bic || '', b.intestatario.slice(0, 70), b.iban.replace(/\s/g, ''), 'EUR' + Number(b.importo).toFixed(2), '', '', b.causale.slice(0, 140)].join('\n');
-    try { var q = qrcode(0, 'M'); q.addData(unescape(encodeURIComponent(epc))); q.make(); document.getElementById('qr').innerHTML = q.createSvgTag({ cellSize: 4, margin: 2, scalable: true }); } catch (x) { document.querySelector('.pay-qr').remove(); }
-  }
-  box.addEventListener('click', function (ev) {
+  fetch('/pay-info.php', { cache: 'no-store' }).then(function (r) { return r.json(); }).then(function (j) {
+    if (!j.ok) { document.getElementById('pay-rows').innerHTML = '<p>Compila il passo 2 e ti mandiamo subito per email i dati per il bonifico.</p>'; return; }
+    bank = j; paint();
+    if (j.link) document.getElementById('pay-link').innerHTML = '<p class="pay-or">oppure</p><a class="btn accent pay-link" href="' + esc(j.link) + '" target="_blank" rel="noopener">Paga con carta o Apple Pay</a>';
+  }).catch(function () { document.getElementById('pay-rows').innerHTML = '<p>Compila il passo 2 e ti mandiamo subito per email i dati per il bonifico.</p>'; });
+  ['nome', 'cognome'].forEach(function (k) { f[k].addEventListener('input', paint); });
+  sel.addEventListener('change', function () { setTimeout(paint, 0); });
+  document.getElementById('pay-card').addEventListener('click', function (ev) {
     var c = ev.target.closest('[data-copy]'); if (!c) return;
     var t = c.getAttribute('data-copy');
     (navigator.clipboard ? navigator.clipboard.writeText(t) : Promise.reject()).then(function () { c.textContent = 'Copiato ✓'; setTimeout(function () { c.textContent = 'Copia'; }, 1800); }).catch(function () { window.prompt('Copia:', t); });
   });
-  box.scrollIntoView({ behavior: 'smooth', block: 'start' });
-});
+  document.addEventListener('ri:sent', function (e) {
+    if (e.detail !== f) return;
+    document.getElementById('cal-link').href = 'https://cal.com/ritiri-itineranti/blackfriday?name=' + encodeURIComponent((f.nome.value + ' ' + f.cognome.value).trim()) + '&email=' + encodeURIComponent(f.email.value);
+  });
+  setTimeout(paint, 50);
+})();
 </script>
 <script>
 (function(){

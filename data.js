@@ -192,6 +192,7 @@ window.RIforms = (function () {
       .then(function (r) { return r.json().then(function (j) { if (!r.ok || !j.ok) throw new Error(j.error || 'Errore'); return j; }); })
       .then(function (j) {
         form._resp = j;
+        try { var me = JSON.parse(localStorage.getItem('ri_me') || '{}'); ['nome', 'cognome', 'email'].forEach(function (k) { var el = form.querySelector('[name=' + k + ']'); if (el && el.value) me[k] = el.value.trim(); }); localStorage.setItem('ri_me', JSON.stringify(me)); } catch (x) {}
         form.hidden = true;
         var done = form.parentNode.querySelector('.form-done');
         if (done) {
@@ -282,9 +283,9 @@ window.RIforms = (function () {
     ['main section:not(.home-hero):not(.page-hero) .eyebrow, main section:not(.home-hero):not(.page-hero) h2, main section:not(.home-hero):not(.page-hero) .lead, .perte-end, .more-link', 'rise'],
     ['.mani-grid > div, .three > div, .how-step, .how > div, .dep-tile, .dep-card, .dest-card, .why > div, .card, .moment, .day', 'rise'],
     ['.trip', 'rise'],
-    ['.pt', 'left'],
+    ['.pt, .steps-list li', 'left'],
     ['.disc, .soon-list span', 'pop'],
-    ['.lvl-strip, .lvl-strip-list li, .faq details, .first-story p, .quiz-teaser, .propose-band, .join, .partner-box, .soon, .bf-ingr > *, .bf-days > *', 'fade']
+    ['.lvl-strip, .lvl-strip-list li, .pay-card, .bk-summary, .bk-steps .note, .legal p, .faq details, .first-story p, .quiz-teaser, .propose-band, .join, .partner-box, .soon, .bf-ingr > *, .bf-days > *', 'fade']
   ];
   var els = [];
   groups.forEach(function (g) {
