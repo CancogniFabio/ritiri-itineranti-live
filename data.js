@@ -110,7 +110,6 @@ window.RI = {
         '<div class="dep-foot"><span class="dep-price">' + (bfOn(d) ? BFPRICE : price(ds)) + '</span></div>' +
         (open ? '<a class="btn accent" href="/prenota?p=' + d.id + '">Prenota ora</a>' : '<button class="btn accent" type="button" data-book="' + d.id + '">Avvisami quando apre</button>') + '</article>';
     }).join('');
-    if (BF && dest === 'marocco') tripDeps.insertAdjacentHTML('beforebegin', '<p class="bf-trip-note"><strong>Black Friday:</strong> fino al 4 dicembre il Desert Way costa 1.100 € invece di 1.400 €. Lasci i tuoi dati e ricevi il codice e la guida completa del viaggio, poi prenoti una consulenza gratuita oppure blocchi direttamente il posto. <a href="/black-friday#sconto">Ottieni lo sconto →</a></p>');
   }
 
   // ---------- finestre generiche: data-open="id" ----------
