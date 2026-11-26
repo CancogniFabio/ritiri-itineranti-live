@@ -79,6 +79,5 @@ function ri_prenotazione($email, $TO) {
     );
     ri_send_html($email, 'Il tuo posto per il ' . $t['nome'], $html, $TO);
     return ['bank' => empty($c['iban']) ? null : ['iban' => $c['iban'], 'intestatario' => $c['intestatario'] ?? '', 'importo' => $t['acconto'], 'causale' => $causale, 'bic' => $c['bic'] ?? ''], 'link' => $c['link_pagamento'] ?? ''];
-    // Chi preme "Ho fatto il bonifico" entra nella lista della brochure con ACCONTO_PAGATO = la partenza: su Brevo un segmento li raccoglie.
-    ri_brevo_upsert($email, ['FIRSTNAME' => $n, 'LASTNAME' => $cg, 'ACCONTO_PAGATO' => $partenza], $t['lista_prenotati'] ?: ($t['lista_brochure'] ?: false));
+    // Per ora nessuna lista Brevo: la prenotazione arriva solo via email a ciao@.
 }
