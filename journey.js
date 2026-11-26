@@ -32,6 +32,21 @@
 
   var a1 = document.getElementById('a1'), a2 = document.getElementById('a2');
   var boat = document.getElementById('boat'), balloon = document.getElementById('balloon');
+  // Nel deserto si cammina: i dromedari seguono il gruppo portando i bagagli
+  var hasCamel = C.modes.some(function (m) { return m[0] === 'camel'; });
+  var camels = [];
+  if (hasCamel && a1.querySelector('.m-camel')) {
+    for (var ci = 0; ci < 2; ci++) {
+      var g = a1.querySelector('.m-camel').cloneNode(true);
+      // via il cavaliere (testa, corpo, braccio), al suo posto i bagagli
+      [].slice.call(g.children).slice(-3).forEach(function (n) { n.parentNode.removeChild(n); });
+      g.insertAdjacentHTML('beforeend', '<rect x="-30" y="-98" width="22" height="20" rx="4" fill="#E9A23B"/><rect x="-4" y="-96" width="20" height="18" rx="4" fill="#F2E3C6" stroke="#6B4A30" stroke-width="2"/>');
+      g.removeAttribute('class'); g.style.display = 'none';
+      var wrap = document.createElementNS('http://www.w3.org/2000/svg', 'g'); wrap.appendChild(g);
+      a1.parentNode.insertBefore(wrap, a1);
+      camels.push(wrap);
+    }
+  }
   var markers = Array.prototype.slice.call(svg.querySelectorAll('.stop'));
   var waiting = Array.prototype.slice.call(svg.querySelectorAll('.waiting'));
   var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -65,6 +80,7 @@
   var camelHips = [[-26, -28], [-14, -12], [18, 16], [28, 30]];
 
   function placeAgent(g, len, mode, sw, bob) {
+    if (mode === 'camel') mode = 'walk';
     var p = point(len), d = dirAt(len);
     var walk = g.querySelector('.m-walk'), cml = g.querySelector('.m-camel');
     walk.style.display = mode === 'walk' ? '' : 'none';
@@ -82,7 +98,7 @@
     cur = reduce ? target : cur + delta * 0.07;
     var moving = Math.abs(delta) > 0.6 && !reduce;
     var mode = modeAt(cur);
-    if (moving) phase += mode === 'camel' ? 0.22 : 0.32;
+    if (moving) phase += 0.32;
 
     var single = mode === 'boat' || mode === 'balloon';
     a1.style.display = single ? 'none' : '';
@@ -90,14 +106,24 @@
     if (boat) boat.style.display = mode === 'boat' ? '' : 'none';
     if (balloon) balloon.style.display = mode === 'balloon' ? '' : 'none';
 
-    var sw = moving ? Math.sin(phase) * (mode === 'camel' ? 7 : 10) : 0;
+    camels.forEach(function (w) { if (single) w.firstChild.style.display = 'none'; });
+    var sw = moving ? Math.sin(phase) * 10 : 0;
     var bob = moving ? Math.abs(Math.sin(phase)) * 3 : 0;
     if (!single) {
-      var gap = mode === 'camel' ? 70 : 42;
+      var gap = 42;
       var m2 = modeAt(Math.max(0, cur - gap));
       if (m2 !== 'walk' && m2 !== 'camel') m2 = 'walk';
       placeAgent(a1, cur, mode, sw, bob);
       placeAgent(a2, cur - gap, m2, moving ? -sw : 0, moving ? Math.abs(Math.cos(phase)) * 3 : 0);
+      camels.forEach(function (w, i) {
+        var len = cur - gap - 62 - i * 64, cm = w.firstChild;
+        var show = modeAt(Math.max(0, len)) === 'camel' && len > 0;
+        cm.style.display = show ? '' : 'none';
+        if (!show) return;
+        var p = point(len), d = dirAt(len), csw = moving ? Math.sin(phase * 0.7 + i) * 6 : 0;
+        w.setAttribute('transform', 'translate(' + p.x.toFixed(1) + ' ' + p.y.toFixed(1) + ') scale(' + (0.42 * d) + ' 0.42)');
+        setLegs(cm, '.cleg', function (k) { var h = camelHips[k], s2 = (k === 0 || k === 3) ? csw : -csw; return 'M' + h[0] + ' -48 L' + (h[1] + s2) + ' 0'; });
+      });
     } else {
       var p = point(cur), d = dirAt(cur);
       if (mode === 'boat') {

@@ -913,3 +913,32 @@ h1 .hero-eyebrow{font-family:var(--body);font-size:.8rem;display:block;margin:0 
 .tel-row .tel-prefix{flex:0 0 8.2em;width:8.2em;min-width:0;padding-left:10px;padding-right:6px;text-overflow:ellipsis}
 .tel-row input[type=tel]{flex:1 1 auto;min-width:0}
 .join-form .tel-row .tel-prefix{padding:12px 8px;border-radius:12px;border:1px solid #4a466b;background:#2E2A4B;color:#fff;font:inherit}
+.modal-sub{color:var(--ink-soft);font-size:.98rem;line-height:1.5;margin:6px 0 14px}
+.modal .row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media (max-width:480px){.modal .row2{grid-template-columns:1fr;gap:0}}
+
+/* Pagina Prenota */
+.book-hero{padding:120px 0 30px}
+.book-wrap{max-width:1080px}
+.back-link{display:inline-block;margin-bottom:18px;color:var(--ink-soft);text-decoration:none;font-weight:600}
+.back-link:hover{color:var(--terra)}
+.book-hero h1{font-size:clamp(2rem,5vw,3.2rem);margin:.2em 0 .5em}
+.bk-summary{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;background:var(--paper);border:1px solid var(--line);border-radius:20px;padding:20px 24px}
+.bk-summary span{display:block;font-size:.78rem;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-soft);margin-bottom:4px}
+.bk-summary p{margin:0}.bk-summary s{color:var(--ink-soft)}.bk-summary small{display:block;color:var(--terra);font-size:.8rem}
+.book-grid{display:grid;grid-template-columns:1.05fr 1fr;gap:40px;align-items:start}
+.steps-list{list-style:none;margin:18px 0;padding:0;display:flex;flex-direction:column;gap:16px}
+.steps-list li{display:flex;gap:14px;align-items:flex-start}
+.steps-list .n{flex:0 0 34px;height:34px;border-radius:50%;background:var(--terra);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700}
+.steps-list p{margin:4px 0 0;color:var(--ink-soft);line-height:1.5}
+.bk-form-box{background:var(--paper);border:1px solid var(--line);border-radius:24px;padding:26px;position:sticky;top:96px}
+.bk-form-box h3{margin:0 0 12px}
+.bk-form-box label{display:block;font-weight:600;font-size:.92rem;margin-bottom:12px}
+.bk-form-box input:not([type=checkbox]),.bk-form-box select,.bk-form-box textarea{display:block;width:100%;box-sizing:border-box;margin-top:6px;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:#fff;font:inherit;font-weight:400}
+.bk-form-box .row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.bk-form-box .check{display:flex;gap:10px;align-items:flex-start;font-weight:400}
+.bk-form-box .btn{width:100%;justify-content:center;font:inherit;font-weight:700;margin-top:6px}
+.bk-alt{text-align:center;font-size:.92rem;color:var(--ink-soft);margin:14px 0 0}
+.bk-alt a{color:var(--terra);font-weight:600}
+@media (max-width:860px){.book-hero{padding:96px 0 20px}.bk-summary{grid-template-columns:1fr 1fr}.book-grid{grid-template-columns:1fr;gap:28px}.bk-form-box{position:static;padding:20px}.bk-form-box .row2{grid-template-columns:1fr;gap:0}}
+button.btn{font-family:inherit}

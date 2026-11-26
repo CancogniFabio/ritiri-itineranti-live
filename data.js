@@ -108,9 +108,19 @@ window.RI = {
       return '<article class="dep-tile"><span class="dep-date">' + d.date + '</span>' + guides(d, 44) +
         '<span class="dep-theme">' + ds.days + '</span>' + status(d) +
         '<div class="dep-foot"><span class="dep-price">' + (bfOn(d) ? BFPRICE : price(ds)) + '</span></div>' +
-        (bfOn(d) ? '<a class="btn accent" href="' + bfLink(d) + '">Ottieni lo sconto</a>' : '<button class="btn accent" type="button" data-book="' + d.id + '">' + (open ? 'Sali a bordo' : 'Avvisami quando apre') + '</button>') + '</article>';
+        (open ? '<a class="btn accent" href="/prenota?p=' + d.id + '">Prenota ora</a>' : '<button class="btn accent" type="button" data-book="' + d.id + '">Avvisami quando apre</button>') + '</article>';
     }).join('');
     if (BF && dest === 'marocco') tripDeps.insertAdjacentHTML('beforebegin', '<p class="bf-trip-note"><strong>Black Friday:</strong> fino al 4 dicembre il Desert Way costa 1.100 € invece di 1.400 €. Lasci i tuoi dati e ricevi il codice e la guida completa del viaggio, poi prenoti una consulenza gratuita oppure blocchi direttamente il posto. <a href="/black-friday#sconto">Ottieni lo sconto →</a></p>');
+  }
+
+  // ---------- brochure modal ----------
+  var bmodal = document.getElementById('brochure-modal');
+  if (bmodal) {
+    document.addEventListener('click', function (e) {
+      if (e.target.closest('[data-brochure]')) { e.preventDefault(); bmodal.hidden = false; var i = bmodal.querySelector('input:not([type=hidden]):not([tabindex])'); if (i) i.focus(); }
+      if (e.target.closest('#brochure-modal [data-close]') || e.target === bmodal) bmodal.hidden = true;
+    });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') bmodal.hidden = true; });
   }
 
   // ---------- booking / waitlist modal ----------
